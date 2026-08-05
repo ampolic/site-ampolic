@@ -1,18 +1,13 @@
 ---
+import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import { CtaBand } from '@ampolic/ui';
-import { TeamMemberCard } from '@ampolic/ui';
+import { CtaBand, TeamMemberCard } from '@ampolic/ui';
 import { site } from '../config/site';
-import samPhoto from '../assets/images/sam-scherf.jpg';
-import dylanPhoto from '../assets/images/dylan-logan.jpeg';
 
-const bio =
-  'As a lifelong learner passionate about technology, I am seeking opportunities where I can continue to grow, tackle new challenges and contribute to a team. I am a dedicated software developer and system administrator with experience building systems, secure infrastructure, and creating solutions for a variety of small and medium businesses I have worked with';
-
-const members = [
-  { name: 'Sam Scherf', role: 'CEO / Co-Owner', url: 'https://samscherf.com', photo: samPhoto, bio },
-  { name: 'Dylan Logan', role: 'CTO / Co-Owner', url: 'https://dylanlogan.xyz', photo: dylanPhoto, bio },
-];
+/* Members come from the `team` content collection — adding a person is a
+   markdown file (Decap-editable), no code changes. Bio = the markdown body
+   (plain prose; rendered as text by TeamMemberCard). */
+const members = (await getCollection('team')).sort((a, b) => a.data.order - b.data.order);
 ---
 <Base title="Meet the Team" description={`Meet the people behind ${site.name} — the Toledo, Ohio team building premium, affordable websites.`}>
   <section class="py-(--spacing-section)">
@@ -25,7 +20,14 @@ const members = [
     <div class="mx-auto max-w-6xl px-4">
       <div class="mx-auto grid max-w-3xl gap-6 md:grid-cols-2" data-stagger>
         {members.map((m) => (
-          <TeamMemberCard name={m.name} role={m.role} bio={m.bio} photo={m.photo} linkLabel="Visit Website" linkHref={m.url} />
+          <TeamMemberCard
+            name={m.data.name}
+            role={m.data.role}
+            bio={(m.body ?? '').trim()}
+            photo={m.data.photo}
+            linkLabel={m.data.linkLabel}
+            linkHref={m.data.website}
+          />
         ))}
       </div>
     </div>

@@ -13,16 +13,6 @@ export const serviceSchema = z.object({
   imageAlt: z.string().optional(),
 });
 
-export const postSchema = z.object({
-  title: z.string(),
-  description: z.string(),
-  date: z.coerce.date(),
-  /* Optional last-updated date; drives "Updated …" and JSON-LD dateModified. */
-  updated: z.coerce.date().optional(),
-  tags: z.array(z.string()).default([]),
-  draft: z.boolean().default(false),
-});
-
 /* Free-form markdown pages (about, team, landing pages…), the shape WordPress
    page exports convert to. Rendered by src/pages/[...page].astro at /<slug>. */
 export const pageSchema = z.object({
@@ -32,6 +22,17 @@ export const pageSchema = z.object({
   updated: z.coerce.date().optional(),
   draft: z.boolean().default(false),
   noindex: z.boolean().default(false),
+});
+
+/* Team members shown on /team. Adding or editing a person is a markdown file
+   (Decap-editable) — no code changes. `photo` is added in content.config via
+   image(); the markdown body is the bio. */
+export const teamSchema = z.object({
+  name: z.string(),
+  role: z.string(),
+  order: z.number(),
+  website: z.string().url().optional(),
+  linkLabel: z.string().default('Visit Website'),
 });
 
 export const testimonialSchema = z.object({

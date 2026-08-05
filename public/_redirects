@@ -13,3 +13,8 @@
 # Template routes replaced by homepage anchor sections on this site.
 /about                    /#about          301
 /contact                  /#contact        301
+
+# Blog removed (remove-blog.mjs)
+/blog / 301
+/blog/* / 301
+/rss.xml / 301
