@@ -20,8 +20,12 @@ backend:
   base_url: https://decap-auth.muddy-voice-3b5b.workers.dev
 
 
-media_folder: src/assets/images/uploads
-public_folder: /src/assets/images/uploads
+# Media library = the site's real image directory, so the CMS picker can select
+# existing assets (team photos, work screenshots, …). public_folder is RELATIVE:
+# collection entries live at src/content/<collection>/x.md, so ../../assets/images
+# resolves correctly and Astro's image() schema validation keeps working.
+media_folder: src/assets/images
+public_folder: ../../assets/images
 
 collections:
   - name: pages
