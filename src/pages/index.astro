@@ -3,7 +3,7 @@ import { getCollection, render } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
 import ServiceCard from '../components/ServiceCard.astro';
-import PricingTiers from '../components/PricingTiers.astro';
+import { PricingTiers } from '@ampolic/ui';
 import ContactForm from '../components/ContactForm.astro';
 import { SectionHeading, Card, FaqList, EmailLink } from '@ampolic/ui';
 import { site } from '../config/site';
@@ -136,7 +136,9 @@ const process = [
       <div data-reveal>
         <SectionHeading eyebrow="Pricing" heading="Simple monthly plans" lede="No contracts, no surprise invoices. Every plan includes hosting, domain, and support." />
       </div>
-      <div class="mt-12"><PricingTiers /></div>
+      <div class="mt-12">
+        <PricingTiers tiers={site.pricing} ctaLabel="Get started" ctaHref="/#contact" />
+      </div>
     </div>
   </section>
 
