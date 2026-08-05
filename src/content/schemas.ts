@@ -33,6 +33,11 @@ export const teamSchema = z.object({
   order: z.number(),
   website: z.string().url().optional(),
   linkLabel: z.string().default('Visit Website'),
+  /* CMS-managed image as an absolute repo path (/src/assets/images/…) —
+     Sveltia requires absolute public paths, which Astro's image() helper
+     rejects, so pages resolve this via import.meta.glob instead (build
+     fails on a broken path). */
+  photo: z.string().startsWith('/src/assets/images/'),
 });
 
 /* Pricing tiers on the homepage #pricing section — one file per tier,
