@@ -31,12 +31,24 @@ from `ampolic-astro-template` and porting the live ampolic.com content.
 
 - **Team resume-download CTA** on the live site was skipped (per brief); team
   cards link to samscherf.com / dylanlogan.xyz instead.
-- **Hero/logo imagery not downloaded.** Homepage uses a neutral token-colored
-  hero (no photo). Favicon/apple-touch-icon/og-default.png are still the
-  template's generic marks — regenerate with the Ampolic logo.
-- **No pixel parity.** Theme approximates the live white/near-black +
-  blue-purple accent with one brand color (indigo `#4f46e5`, dark-tuned
-  `#8b8ff8`); template fonts (Archivo/Hanken Grotesk/JetBrains Mono) kept.
+- **RESOLVED (2026-08 design pass): hero/logo imagery + favicons.** Client
+  assets are now integrated: homepage photo hero (`src/assets/images/hero.jpg`
+  behind the scrim gradient), header logo, team portraits, /our-work
+  screenshots, and the six provided service icons (`src/icons/services/`,
+  replacing the Lucide guesses). Favicon set + `og-default.png` are generated
+  from the logo via `scripts/gen-brand-icons.mjs` (replaces
+  `gen-apple-touch-icon.mjs`). Sources recorded in `docs/IMAGE-CREDITS.md`.
+  Note: the provided `hero.webp` was JPEG data — stored as `hero.jpg`.
+- **RESOLVED (2026-08 design pass): palette approximation.** Tokens now measure
+  from the live site: burnt-orange brand `#bb4900` (dark-tuned `#ff9e62`),
+  blue-tinted surfaces (`#f7fbfe`/`#edf4fa`), navy ink `#101c2e`, navy footer
+  on the constant `--color-scrim` `#061221`, radius 0.75rem. Fonts remain the
+  template's Archivo/Hanken Grotesk/JetBrains Mono (live site uses a plain
+  grotesque; deliberate keep, not pixel parity).
+- **Nav pill styling** approximates the live pill nav (rounded link group +
+  phone pill + orange CTA); buttons use `--radius-base` (0.75rem), not the live
+  site's full pills, because `@ampolic/ui@0.1.0` Button derives radius from the
+  token shared with cards.
 - **About/Contact are homepage anchors** (`/#about`, `/#contact`) like the live
   site; the template's `/about` and `/contact` pages were deleted and 301'd in
   `public/_redirects`. `ServiceAreaMap.astro` and `ContactBlock.astro`
@@ -60,5 +72,10 @@ from `ampolic-astro-template` and porting the live ampolic.com content.
 
 - `pnpm test:a11y` (Playwright a11y suite) was NOT run — needs Playwright
   browsers installed. Run it before launch.
-- Visual verification via screenshots (per AGENT-GUARDRAILS) was not performed
-  in this environment; review the rendered site on staging.
+- Visual verification via screenshots WAS performed in the 2026-08 design pass:
+  live-vs-rebuild comparisons at 1440px/375px are saved in
+  `docs/design-review/`. Remaining known differences: buttons are rounded-xl
+  rather than full pills, fonts differ slightly from live, and the template's
+  extra sections (spec strip, process cards, CTA bands, theme toggle, footer
+  legal links) have no live-site counterpart — intentional "same brand, but
+  cleaner".
