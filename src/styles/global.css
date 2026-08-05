@@ -1,5 +1,10 @@
 @import 'tailwindcss';
 
+/* Tailwind v4 skips node_modules during auto source detection — scan the
+   @ampolic/ui .astro sources explicitly so utilities used only by shared
+   components (e.g. text-brand-contrast on Button) are generated. */
+@source '../../node_modules/@ampolic/ui/src';
+
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 
 @theme {
@@ -9,24 +14,24 @@
   --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace; /* the readout voice — facts & numbers */
 
   /* Brand — the only brand color components may reference */
-  --color-brand: #4f46e5; /* blue-purple (indigo) — Ampolic accent */
-  --color-brand-dark: #8b8ff8; /* dark-tuned brand, AA on dark surfaces */
+  --color-brand: #bb4900; /* burnt orange — measured from ampolic.com buttons/accents */
+  --color-brand-dark: #ff9e62; /* dark-tuned brand, AA (dark ink) on dark surfaces */
   --color-brand-contrast: #ffffff;
 
   /* Photo hero — CONSTANT across light/dark: white text sits over imagery, not a surface */
-  --color-scrim: #0a0a14; /* dark indigo-ink gradient over photos, guarantees AA for overlaid text */
-  --color-on-hero: #f4f4fa; /* near-white headline/CTA text on photo + scrim */
+  --color-scrim: #061221; /* deep navy-ink gradient over photos (matches live footer/hero) */
+  --color-on-hero: #f4f8fc; /* near-white headline/CTA text on photo + scrim */
 
-  /* Semantic neutrals (light defaults) — white/near-black with a faint cool undertone */
-  --color-surface: #fdfdfe;
-  --color-surface-alt: #f1f1f6;
-  --color-text: #17171f;
-  --color-text-muted: #4d4d5c;
-  --color-line: #dbdbe4;
+  /* Semantic neutrals (light defaults) — blue-tinted whites + navy ink, per the live site */
+  --color-surface: #f7fbfe;
+  --color-surface-alt: #edf4fa;
+  --color-text: #101c2e;
+  --color-text-muted: #43536a;
+  --color-line: #d9e3ee;
 
-  /* Shape & depth — crisp/engineered; hairline borders carry separation, not shadows */
-  --radius-base: 0.25rem;
-  --shadow-card: 0 1px 2px rgb(16 40 40 / 0.05);
+  /* Shape & depth — rounded, friendly; soft shadows like the live cards */
+  --radius-base: 0.75rem;
+  --shadow-card: 0 1px 3px rgb(6 18 33 / 0.07);
 
   /* Rhythm */
   --spacing-section: clamp(2.25rem, 4.5vw, 3.75rem);
@@ -45,12 +50,12 @@
 /* Explicit choice wins */
 :root[data-theme='dark'] {
   --color-brand: var(--color-brand-dark);
-  --color-brand-contrast: #10101c; /* dark ink on light-indigo fills */
-  --color-surface: #0e0f14; /* dark, cool-tinted — not pure black */
-  --color-surface-alt: #16171f;
-  --color-text: #ececf2;
-  --color-text-muted: #9b9bae;
-  --color-line: #272834;
+  --color-brand-contrast: #10131c; /* dark ink on light-orange fills */
+  --color-surface: #0a1220; /* dark navy — the live footer color family */
+  --color-surface-alt: #121d30;
+  --color-text: #e8eef6;
+  --color-text-muted: #9db0c6;
+  --color-line: #24344c;
   --shadow-card: 0 1px 3px rgb(0 0 0 / 0.5);
 }
 
@@ -58,12 +63,12 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']):not([data-theme='dark']) {
     --color-brand: var(--color-brand-dark);
-    --color-brand-contrast: #10101c;
-    --color-surface: #0e0f14;
-    --color-surface-alt: #16171f;
-    --color-text: #ececf2;
-    --color-text-muted: #9b9bae;
-    --color-line: #272834;
+    --color-brand-contrast: #10131c;
+    --color-surface: #0a1220;
+    --color-surface-alt: #121d30;
+    --color-text: #e8eef6;
+    --color-text-muted: #9db0c6;
+    --color-line: #24344c;
     --shadow-card: 0 1px 3px rgb(0 0 0 / 0.5);
   }
 }
@@ -322,26 +327,26 @@ header details[open] > nav {
 @media (prefers-contrast: more) {
   /* Light (default) */
   :root {
-    --color-text-muted: #35353f; /* ≥9:1 on both light surfaces */
-    --color-line: #83838f; /* borders clearly visible */
-    --color-brand: #3730a3; /* darkened indigo: white on brand ≥ 8:1 */
+    --color-text-muted: #2c3a4e; /* ≥9:1 on both light surfaces */
+    --color-line: #77869a; /* borders clearly visible */
+    --color-brand: #7c3100; /* darkened orange: white on brand ≥ 8:1 */
     --color-scrim: #000000; /* max token-level scrim; opacity stops are in Hero.astro */
     --shadow-card: 0 0 0 1px var(--color-line); /* solid hairline, not a soft shadow */
   }
 
   /* Dark — explicit choice */
   :root[data-theme='dark'] {
-    --color-text-muted: #aeaec0; /* ≥8:1 on both dark surfaces */
-    --color-line: #6e6e7c; /* clearly visible on dark surfaces */
+    --color-text-muted: #b6c4d6; /* ≥8:1 on both dark surfaces */
+    --color-line: #6d7f96; /* clearly visible on dark surfaces */
     --shadow-card: 0 0 0 1px var(--color-line);
-    /* brand stays #8b8ff8: dark ink on it clears 7:1 */
+    /* brand stays #ff9e62: dark ink on it clears 7:1 */
   }
 
   /* Dark — system preference, no explicit choice */
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme='light']):not([data-theme='dark']) {
-      --color-text-muted: #aeaec0;
-      --color-line: #6e6e7c;
+      --color-text-muted: #b6c4d6;
+      --color-line: #6d7f96;
       --shadow-card: 0 0 0 1px var(--color-line);
     }
   }
