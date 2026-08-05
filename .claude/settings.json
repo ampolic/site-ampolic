@@ -1,0 +1,19 @@
+{
+  "enabledPlugins": {
+    "cloudflare@claude-plugins-official": true
+  },
+  "extraKnownMarketplaces": {
+    "knowledge-work-plugins": {
+      "source": {
+        "source": "github",
+        "repo": "anthropics/knowledge-work-plugins"
+      }
+    },
+    "ampolic-plugins": {
+      "source": {
+        "source": "github",
+        "repo": "ampolic/ampolic-plugins"
+      }
+    }
+  }
+}
