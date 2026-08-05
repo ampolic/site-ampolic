@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { serviceSchema, postSchema, testimonialSchema, faqSchema } from '../src/content/schemas';
+import { serviceSchema, testimonialSchema, faqSchema } from '../src/content/schemas';
 
 describe('service schema', () => {
   it('defaults featured to false', () => {
@@ -8,15 +8,6 @@ describe('service schema', () => {
   });
   it('rejects a missing title', () => {
     expect(() => serviceSchema.parse({ summary: 'x', icon: 'i', order: 1 })).toThrow();
-  });
-});
-
-describe('post schema', () => {
-  it('coerces an ISO date string to a Date and defaults arrays', () => {
-    const parsed = postSchema.parse({ title: 'T', description: 'D', date: '2026-01-05' });
-    expect(parsed.date).toBeInstanceOf(Date);
-    expect(parsed.tags).toEqual([]);
-    expect(parsed.draft).toBe(false);
   });
 });
 

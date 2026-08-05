@@ -1,6 +1,5 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
-import { getPublishedPosts } from '../lib/posts';
 import { site } from '../config/site';
 
 /**
@@ -14,7 +13,6 @@ export const GET: APIRoute = async ({ site: siteUrl }) => {
   const abs = (path: string) => new URL(path, base).href;
 
   const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
-  const posts = (await getPublishedPosts()).slice(0, 5);
 
   const owner = site.credentials.owner;
   const years = new Date().getFullYear() - site.trust.established;
@@ -37,8 +35,6 @@ export const GET: APIRoute = async ({ site: siteUrl }) => {
     '## Services',
     ...services.map((s) => `- [${s.data.title}](${abs(`/services/${s.id}`)}): ${s.data.summary}`),
     '',
-    '## Recent posts',
-    ...posts.map((p) => `- [${p.data.title}](${abs(`/blog/${p.id}`)}): ${p.data.description}`),
     '',
   ];
 
