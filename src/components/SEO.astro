@@ -1,0 +1,33 @@
+---
+import { site } from '../config/site';
+interface Props { title: string; description: string; canonical?: string; image?: string; noindex?: boolean }
+const { title, description, canonical, image = '/og-default.png', noindex = false } = Astro.props;
+// Description is REQUIRED: every page must ship a unique meta description. Fail the
+// build loudly rather than silently falling back to a duplicated site-wide default.
+if (!description?.trim()) {
+  throw new Error(`<SEO> is missing a description for the page titled "${title}". Every page must pass a unique meta description.`);
+}
+// Homepage passes a full "[service] in [city] | [name]" title (already ends with the
+// business name); inner pages pass just the page name and get "| [name]" appended.
+const pageTitle = title.endsWith(site.name) ? title : `${title} | ${site.name}`;
+// trailingSlash: 'never' — normalise the path so every canonical is slash-free
+// (root stays '/'). build.format 'directory' would otherwise leave a trailing
+// slash on Astro.url.pathname.
+const rawPath = canonical ?? Astro.url.pathname;
+const canonicalPath = rawPath === '/' ? rawPath : rawPath.replace(/\/+$/, '');
+const canonicalUrl = new URL(canonicalPath, site.url).href;
+const ogImage = new URL(image, site.url).href;
+---
+<title>{pageTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalUrl} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+<meta property="og:type" content="website" />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content={ogImage} />

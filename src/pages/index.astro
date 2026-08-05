@@ -1,0 +1,163 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import PricingTiers from '../components/PricingTiers.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { SectionHeading, Card, FaqList, EmailLink, Button } from '@ampolic/ui';
+import { site } from '../config/site';
+
+const services = (await getCollection('services'))
+  .filter((s) => s.data.featured)
+  .sort((a, b) => a.data.order - b.data.order);
+const faqEntries = (await getCollection('faq')).sort((a, b) => a.data.order - b.data.order);
+const faqItems = await Promise.all(
+  faqEntries.map(async (f) => ({ question: f.data.question, Content: (await render(f)).Content }))
+);
+
+// Display phone: +1-419-740-1850 → (419) 740-1850
+const digits = site.phone.replace(/\D/g, '').slice(-10);
+const phoneLabel = `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+
+// Homepage title models the local-SEO convention: "[primaryService] in [city] | [name]".
+const homeTitle = `${site.primaryService} in ${site.city} | ${site.name}`;
+
+const spec = [`Est. ${site.trust.established}`, `${site.city}, ${site.address.region}`, 'Month-to-month, no contracts', 'Launch in 1–2 weeks'];
+
+const why = [
+  {
+    title: 'Custom-built, not a template',
+    body: 'Every site is hand-built from scratch — no page builders, no bloat. That means faster load times and cleaner SEO.',
+  },
+  {
+    title: 'Everything handled for you',
+    body: 'Hosting, domain, SEO, security, and updates are all included in one monthly fee. You run your business; we run your website.',
+  },
+  {
+    title: 'Real people, real support',
+    body: `We're a Toledo-based team, and we reply within 1–2 business days — by email or phone, no ticket maze.`,
+  },
+  {
+    title: 'No lock-in',
+    body: 'Every plan is month-to-month. If you ever cancel, you keep your domain and your website files.',
+  },
+];
+
+const process = [
+  { step: '01', title: 'Reach out', body: 'We discuss your business needs and goals.' },
+  { step: '02', title: 'We build together', body: 'We draft the design and content; you review and refine it until it sounds like you.' },
+  { step: '03', title: 'Launch in 1–2 weeks', body: 'Your site goes live with hosting, SSL, and SEO setup handled.' },
+  { step: '04', title: 'We keep it running', body: 'Ongoing updates and maintenance are part of your plan.' },
+];
+---
+<Base title={homeTitle} description={site.description}>
+  <Hero
+    eyebrow={`Digital marketing · ${site.city}, ${site.address.region}`}
+    headline="Digital marketing for small businesses."
+    subhead={site.description}
+  />
+  <div class="mx-auto -mt-4 flex max-w-6xl flex-wrap items-center gap-4 px-4 pb-(--spacing-section)">
+    <Button href="/#contact">Contact Us</Button>
+    <Button href="/#about" variant="outline">Learn More</Button>
+  </div>
+
+  <!-- Spec strip: credibility as one mono data row -->
+  <section class="border-y border-line" aria-label="Company facts">
+    <ul class="mx-auto flex max-w-6xl flex-wrap items-center gap-x-8 gap-y-3 px-4 py-5 font-mono text-xs uppercase tracking-[0.12em] text-text-muted sm:text-sm">
+      {spec.map((item) => (
+        <li class="flex items-center gap-8" data-spec><span class="text-text">{item}</span></li>
+      ))}
+    </ul>
+  </section>
+
+  <section id="about" class="py-(--spacing-section)">
+    <div class="mx-auto max-w-6xl px-4" data-reveal>
+      <SectionHeading eyebrow="About" heading="Don't Settle For Less" />
+      <p class="mt-6 max-w-[65ch] text-lg text-text-muted">
+        Ampolic Digital Solutions specializes in helping small businesses grow their online presence
+        through custom-built, optimized websites. Established in 2020 and based in Toledo, Ohio, we
+        believe every business deserves a premium website — without the premium agency price tag.
+      </p>
+    </div>
+  </section>
+
+  <section id="why" class="bg-surface-alt py-(--spacing-section)">
+    <div class="mx-auto max-w-6xl px-4">
+      <div data-reveal><SectionHeading eyebrow="Why Ampolic" heading="Why Ampolic instead of a DIY website builder?" /></div>
+      <div class="mt-12 grid gap-6 md:grid-cols-2" data-stagger>
+        {why.map((w) => (
+          <Card>
+            <h3 class="font-display text-xl font-semibold tracking-tight">{w.title}</h3>
+            <p class="mt-2 text-text-muted">{w.body}</p>
+          </Card>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="solutions" class="py-(--spacing-section)">
+    <div class="mx-auto max-w-6xl px-4">
+      <div data-reveal><SectionHeading eyebrow="What we do" heading="Solutions" /></div>
+      <div class="mt-12 grid gap-6 md:grid-cols-3" data-stagger>
+        {services.map((s, i) => (
+          <ServiceCard
+            title={s.data.title}
+            summary={s.data.summary}
+            icon={s.data.icon}
+            href={`/services/${s.id}`}
+            index={String(i + 1).padStart(2, '0')}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="process" class="bg-surface-alt py-(--spacing-section)">
+    <div class="mx-auto max-w-6xl px-4">
+      <div data-reveal><SectionHeading eyebrow="Process" heading="How it works" /></div>
+      <ol class="mt-12 grid gap-6 md:grid-cols-4" data-stagger>
+        {process.map((p) => (
+          <li class="rounded-(--radius-base) border border-line bg-surface p-6 shadow-card">
+            <span class="font-mono text-sm text-brand">{p.step}</span>
+            <h3 class="mt-4 font-display text-lg font-semibold tracking-tight">{p.title}</h3>
+            <p class="mt-2 text-text-muted">{p.body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section id="pricing" class="py-(--spacing-section)">
+    <div class="mx-auto max-w-6xl px-4">
+      <div data-reveal>
+        <SectionHeading eyebrow="Pricing" heading="Simple monthly plans" lede="No contracts, no surprise invoices. Every plan includes hosting, domain, and support." />
+      </div>
+      <div class="mt-12"><PricingTiers /></div>
+    </div>
+  </section>
+
+  <section id="faq" class="bg-surface-alt py-(--spacing-section)">
+    <div class="mx-auto max-w-6xl px-4">
+      <div data-reveal><SectionHeading eyebrow="FAQ" heading="Common questions" /></div>
+      <div class="mt-10"><FaqList items={faqItems} /></div>
+    </div>
+  </section>
+
+  <section id="contact" class="py-(--spacing-section)">
+    <div class="mx-auto max-w-6xl px-4">
+      <div data-reveal><SectionHeading eyebrow="Contact" heading="Let's talk about your website" /></div>
+      <div class="mt-10 grid gap-12 lg:grid-cols-2 lg:items-start">
+        <div class="space-y-3">
+          <p class="max-w-[52ch] text-text-muted">
+            Tell us about your business and we'll get back to you within one to two business days.
+          </p>
+          <p><a href={`tel:${site.phone}`} class="text-brand hover:underline">{phoneLabel}</a></p>
+          <p><EmailLink email={site.email} class="text-brand hover:underline" /></p>
+          <p class="text-text-muted">{site.serviceArea}</p>
+        </div>
+        <div><ContactForm /></div>
+      </div>
+    </div>
+  </section>
+</Base>

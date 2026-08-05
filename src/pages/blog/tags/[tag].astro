@@ -1,0 +1,47 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PostRow from '../../../components/PostRow.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import { getPublishedPosts, getAllTags, postsForTagSlug } from '../../../lib/posts';
+import { site } from '../../../config/site';
+
+export async function getStaticPaths() {
+  const posts = await getPublishedPosts();
+  return getAllTags(posts).map((t) => ({
+    params: { tag: t.slug },
+    props: { label: t.tag, posts: postsForTagSlug(posts, t.slug) },
+  }));
+}
+const { label, posts } = Astro.props;
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Blog', href: '/blog' },
+  { label },
+];
+---
+<Base title={`Posts tagged “${label}”`} description={`Articles about ${label} from ${site.name}.`}>
+  <section class="py-(--spacing-section)">
+    <div class="mx-auto max-w-3xl px-4">
+      <Breadcrumbs items={crumbs} class="mb-5" />
+      <h1 class="font-display text-4xl font-semibold">{label}</h1>
+      <div class="mt-6 flex flex-wrap items-center gap-3">
+        <a
+          href="/blog"
+          class="inline-flex items-center gap-1.5 rounded-(--radius-base) border border-line bg-surface-alt px-2.5 py-1 font-mono text-xs uppercase tracking-[0.12em] text-text-muted transition-colors hover:border-brand hover:text-brand"
+        >
+          <span aria-hidden="true">←</span> All posts
+        </a>
+        <span class="font-mono text-xs uppercase tracking-[0.12em] text-text-muted">
+          {posts.length} {posts.length === 1 ? 'article' : 'articles'} tagged “{label}”
+        </span>
+      </div>
+      <ul class="mt-10 space-y-8">
+        {posts.map((p) => (
+          <li>
+            <PostRow post={p} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Base>

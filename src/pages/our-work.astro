@@ -1,0 +1,55 @@
+---
+import Base from '../layouts/Base.astro';
+import { Card, CtaBand } from '@ampolic/ui';
+import { site } from '../config/site';
+
+const projects = [
+  {
+    name: 'Food For Thought Toledo',
+    url: 'https://feedtoledo.org',
+    label: 'feedtoledo.org',
+    body: 'Food For Thought Toledo is a local charity fighting hunger with dignity and care. Their website gives neighbors, volunteers, and donors a clear way to learn about the mission and get involved. Since launching the new site, the organization has seen a significant increase in online donations.',
+  },
+  {
+    name: 'Bernal Professional Services',
+    url: 'https://bernalservices.com',
+    label: 'bernalservices.com',
+    body: 'Bernal Professional Services needed a straightforward web presence for homeowners looking for reliable lawn care in Toledo and nearby communities. The site keeps services, trust signals, and contact options easy to find — and gave Bernal its first online presence, opening a brand-new channel for homeowners to find and contact them.',
+  },
+  {
+    name: 'Kalyn Orrin',
+    url: 'https://kalynorrin.com',
+    label: 'kalynorrin.com',
+    body: "Kalyn Orrin's site gives her book and author story a polished home online, with space for readers to discover All The Things We Left Unsaid and connect with her work. The site extends her visibility beyond Amazon, giving readers a direct place to find her and her writing.",
+  },
+];
+---
+<Base
+  title="Our Work"
+  description={`Websites built by ${site.name} for businesses and organizations in Toledo, Ohio and beyond.`}
+>
+  <section class="py-(--spacing-section)">
+    <div class="mx-auto max-w-6xl px-4">
+      <h1 class="font-display text-4xl font-semibold text-balance sm:text-5xl">Our Work</h1>
+      <p class="mt-5 max-w-[52ch] text-lg text-text-muted">
+        Explore websites built by Ampolic Digital Solutions for businesses and organizations.
+      </p>
+    </div>
+  </section>
+  <section class="bg-surface-alt py-(--spacing-section)">
+    <div class="mx-auto max-w-6xl px-4">
+      <div class="grid gap-6 md:grid-cols-3" data-stagger>
+        {projects.map((p) => (
+          <Card>
+            <h2 class="font-display text-xl font-semibold tracking-tight">{p.name}</h2>
+            <p class="mt-3 text-text-muted">{p.body}</p>
+            <a href={p.url} target="_blank" rel="noopener" class="mt-5 inline-block font-mono text-xs uppercase tracking-[0.15em] text-brand underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
+              {p.label} →
+            </a>
+          </Card>
+        ))}
+      </div>
+    </div>
+  </section>
+  <CtaBand heading="Want a site like these?" ctaLabel={site.cta.label} ctaHref={site.cta.href} />
+</Base>

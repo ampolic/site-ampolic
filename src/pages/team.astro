@@ -1,0 +1,54 @@
+---
+import Base from '../layouts/Base.astro';
+import { Card, CtaBand } from '@ampolic/ui';
+import { site } from '../config/site';
+
+const bio =
+  'As a lifelong learner passionate about technology, I am seeking opportunities where I can continue to grow, tackle new challenges and contribute to a team. I am a dedicated software developer and system administrator with experience building systems, secure infrastructure, and creating solutions for a variety of small and medium businesses I have worked with';
+
+const members = [
+  { name: 'Sam Scherf', role: 'CEO / Co-Owner', url: 'https://samscherf.com', label: 'samscherf.com', bio },
+  { name: 'Dylan Logan', role: 'CTO / Co-Owner', url: 'https://dylanlogan.xyz', label: 'dylanlogan.xyz', bio },
+];
+
+const initials = (name: string) =>
+  name
+    .split(' ')
+    .map((p) => p[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase();
+---
+<Base title="Meet the Team" description={`Meet the people behind ${site.name} — the Toledo, Ohio team building premium, affordable websites.`}>
+  <section class="py-(--spacing-section)">
+    <div class="mx-auto max-w-6xl px-4">
+      <h1 class="font-display text-4xl font-semibold text-balance sm:text-5xl">Meet the Team</h1>
+      <p class="mt-5 max-w-[52ch] text-lg text-text-muted">Meet the people behind Ampolic Digital Solutions.</p>
+    </div>
+  </section>
+  <section class="bg-surface-alt py-(--spacing-section)">
+    <div class="mx-auto max-w-6xl px-4">
+      <div class="grid gap-6 md:grid-cols-2" data-stagger>
+        {members.map((m) => (
+          <Card>
+            <div class="flex items-center gap-5">
+              <span
+                aria-hidden="true"
+                class="grid size-16 shrink-0 place-items-center rounded-full border border-line bg-surface-alt font-display text-xl font-semibold text-brand"
+              >{initials(m.name)}</span>
+              <div>
+                <h2 class="font-display text-xl font-semibold tracking-tight">{m.name}</h2>
+                <p class="text-text-muted">{m.role}</p>
+              </div>
+            </div>
+            <p class="mt-5 text-text-muted">{m.bio}</p>
+            <a href={m.url} target="_blank" rel="noopener" class="mt-5 inline-block font-mono text-xs uppercase tracking-[0.15em] text-brand underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
+              {m.label} →
+            </a>
+          </Card>
+        ))}
+      </div>
+    </div>
+  </section>
+  <CtaBand heading="Work with us on your next website" ctaLabel={site.cta.label} ctaHref={site.cta.href} />
+</Base>
