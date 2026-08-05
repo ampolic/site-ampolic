@@ -16,6 +16,8 @@ backend:
   name: github
   repo: ampolic/site-ampolic
   branch: dev
+  # OAuth gateway: the decap-auth Cloudflare Worker (ampolic-core/workers/decap-auth)
+  base_url: https://decap-auth.muddy-voice-3b5b.workers.dev
 
 publish_mode: editorial_workflow
 
