@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { serviceSchema, testimonialSchema, faqSchema } from '../src/content/schemas';
+import { serviceSchema, pricingSchema, faqSchema } from '../src/content/schemas';
 
 describe('service schema', () => {
   it('defaults featured to false', () => {
@@ -11,9 +11,12 @@ describe('service schema', () => {
   });
 });
 
-describe('testimonial schema', () => {
-  it('rejects a rating above 5', () => {
-    expect(() => testimonialSchema.parse({ author: 'A', role: 'R', quote: 'Q', rating: 6 })).toThrow();
+describe('pricing schema', () => {
+  it('defaults period and featured, requires features', () => {
+    const parsed = pricingSchema.parse({ name: 'Tier', price: '$39', features: ['a'], order: 1 });
+    expect(parsed.period).toBe('/mo');
+    expect(parsed.featured).toBe(false);
+    expect(() => pricingSchema.parse({ name: 'Tier', price: '$39', order: 1 })).toThrow();
   });
 });
 
