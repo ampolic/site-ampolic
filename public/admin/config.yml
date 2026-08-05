@@ -72,7 +72,7 @@ collections:
       - { name: role, label: Role, widget: string }
       - { name: order, label: Order, widget: number }
       - { name: website, label: Website URL, widget: string, required: false }
-      - { name: linkLabel, label: Link label, widget: string, default: Visit Website }
+      - { name: linkLabel, label: Link label, widget: string, default: Visit Website, required: false }
       - { name: photo, label: Photo, widget: image }
       - { name: body, label: Bio, widget: markdown }
 
@@ -87,7 +87,7 @@ collections:
       - { name: name, label: Tier name, widget: string }
       - { name: price, label: Current price (e.g. $39), widget: string }
       - { name: regular, label: Regular price (struck through), widget: string, required: false }
-      - { name: period, label: Period, widget: string, default: /mo }
+      - { name: period, label: Period, widget: string, default: /mo, required: false }
       - { name: blurb, label: Blurb, widget: string, required: false }
       - { name: features, label: Features, widget: list, field: { name: feature, label: Feature, widget: string } }
       - { name: featured, label: Featured (highlighted card), widget: boolean, default: false }
