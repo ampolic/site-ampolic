@@ -11,6 +11,6 @@ features:
   - Ongoing SEO
   - Basic content updates
   - Domain and maintenance included
-featured: true
+featured: false
 order: 2
 ---
