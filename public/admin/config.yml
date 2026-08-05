@@ -43,6 +43,9 @@ collections:
     folder: src/content/services
     create: true
     extension: md
+    # List view: show site order in the row label and allow sorting by it.
+    summary: '{{fields.order}} · {{fields.title}}'
+    sortable_fields: ['order', 'title']
     fields:
       - { name: title, label: Title, widget: string }
       - { name: summary, label: Summary, widget: string }
@@ -59,6 +62,8 @@ collections:
     folder: src/content/team
     create: true
     extension: md
+    summary: '{{fields.order}} · {{fields.name}}'
+    sortable_fields: ['order', 'name']
     fields:
       - { name: name, label: Name, widget: string }
       - { name: role, label: Role, widget: string }
@@ -92,6 +97,8 @@ collections:
     folder: src/content/faq
     create: true
     extension: md
+    summary: '{{fields.order}} · {{fields.question}}'
+    sortable_fields: ['order', 'question']
     fields:
       - { name: question, label: Question, widget: string }
       - { name: order, label: Order, widget: number }
