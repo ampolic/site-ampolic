@@ -1,0 +1,514 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+@theme {
+  /* Fonts — swap the import in Base.astro + these tokens per client */
+  --font-display: 'Archivo Variable', sans-serif;
+  --font-sans: 'Hanken Grotesk Variable', sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace; /* the readout voice — facts & numbers */
+
+  /* Brand — the only brand color components may reference */
+  --color-brand: #4f46e5; /* blue-purple (indigo) — Ampolic accent */
+  --color-brand-dark: #8b8ff8; /* dark-tuned brand, AA on dark surfaces */
+  --color-brand-contrast: #ffffff;
+
+  /* Photo hero — CONSTANT across light/dark: white text sits over imagery, not a surface */
+  --color-scrim: #0a0a14; /* dark indigo-ink gradient over photos, guarantees AA for overlaid text */
+  --color-on-hero: #f4f4fa; /* near-white headline/CTA text on photo + scrim */
+
+  /* Semantic neutrals (light defaults) — white/near-black with a faint cool undertone */
+  --color-surface: #fdfdfe;
+  --color-surface-alt: #f1f1f6;
+  --color-text: #17171f;
+  --color-text-muted: #4d4d5c;
+  --color-line: #dbdbe4;
+
+  /* Shape & depth — crisp/engineered; hairline borders carry separation, not shadows */
+  --radius-base: 0.25rem;
+  --shadow-card: 0 1px 2px rgb(16 40 40 / 0.05);
+
+  /* Rhythm */
+  --spacing-section: clamp(2.25rem, 4.5vw, 3.75rem);
+
+  /* Motion — the site's single easing voice: crisp deceleration, no overshoot,
+     the CSS twin of GSAP's `power3.out` (easeOutCubic) used in motion.ts. Shared
+     by the view-transition animations so navigation feels like the reveals. */
+  --ease-settle: cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+/* Dark overrides — remap the SAME token names so components never branch.
+   Applied both by system preference and by an explicit [data-theme] choice.
+   Implemented as two explicit rules because CSS can't nest an at-rule
+   inside a selector list. */
+
+/* Explicit choice wins */
+:root[data-theme='dark'] {
+  --color-brand: var(--color-brand-dark);
+  --color-brand-contrast: #10101c; /* dark ink on light-indigo fills */
+  --color-surface: #0e0f14; /* dark, cool-tinted — not pure black */
+  --color-surface-alt: #16171f;
+  --color-text: #ececf2;
+  --color-text-muted: #9b9bae;
+  --color-line: #272834;
+  --shadow-card: 0 1px 3px rgb(0 0 0 / 0.5);
+}
+
+/* System preference, only when the user hasn't explicitly chosen light */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']):not([data-theme='dark']) {
+    --color-brand: var(--color-brand-dark);
+    --color-brand-contrast: #10101c;
+    --color-surface: #0e0f14;
+    --color-surface-alt: #16171f;
+    --color-text: #ececf2;
+    --color-text-muted: #9b9bae;
+    --color-line: #272834;
+    --shadow-card: 0 1px 3px rgb(0 0 0 / 0.5);
+  }
+}
+
+/* Base page defaults */
+html {
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+}
+
+
+/* ==========================================================================
+   Modern CSS polish — progressive enhancement only.
+   Every rule here is additive: where the browser lacks the feature it falls
+   back to the plain-but-correct baseline (no animation, UA defaults, static
+   layout). Nothing here is required for the page to be usable, readable, or
+   operable with JS disabled. New transitions are disabled under
+   prefers-reduced-motion at the end of this block. Selection/caret/accent
+   colours reuse the AA-verified brand↔brand-contrast pairing (the same pair
+   used for buttons), so they clear AA in both themes.
+   ========================================================================== */
+
+/* color-scheme — wire the UA's native surfaces (form controls, scrollbars,
+   spellcheck underlines, the pre-paint canvas) to our theme choice. The inline
+   script in Base.astro always stamps [data-theme] before first paint, so the
+   explicit rules drive it; `light dark` on :root is the sensible default for
+   the brief window/edge case where no attribute is set.
+   Support: universal (all engines since ~2020). */
+:root { color-scheme: light dark; }
+:root[data-theme='light'] { color-scheme: light; }
+:root[data-theme='dark'] { color-scheme: dark; }
+
+/* Branded selection + form accents, straight from tokens.
+   accent-color: Chrome 93+/Firefox 92+/Safari 15.4+ — else UA default accent.
+   caret-color + ::selection: universal. */
+:root {
+  accent-color: var(--color-brand);
+  caret-color: var(--color-brand);
+}
+::selection {
+  background: var(--color-brand);
+  color: var(--color-brand-contrast);
+}
+
+/* Typographic niceties.
+   text-wrap: balance evens out heading line lengths (no lonely last word);
+   text-wrap: pretty improves ragging + prevents orphans in long prose.
+   balance: Chrome 114+/Firefox 121+/Safari 17.5+. pretty: Chrome 117+/Safari
+   17.5+ (Firefox: not yet — degrades to normal wrapping, no harm). */
+h1, h2, h3, h4 { text-wrap: balance; }
+.prose p, .prose li { text-wrap: pretty; }
+
+/* Tabular figures where digits are meant to line up in columns or swap in
+   place (stat readouts, data tables, dates, phone numbers). The proportional
+   default is kept for running prose. Support: universal. */
+[data-spec],
+.prose table,
+time,
+a[href^='tel:'] { font-variant-numeric: tabular-nums; }
+
+/* Anchor targets clear the sticky header instead of hiding beneath it.
+   Prose headings set their own larger value; this is the site-wide floor.
+   Support: universal. */
+:target { scroll-margin-top: 6rem; }
+
+/* Reserve the scrollbar's width at all times so opening a popover/menu (which
+   can toggle the page scrollbar) doesn't shift layout horizontally.
+   Support: Chrome 94+/Firefox 97+/Safari 18.2+ — else no gutter reserved. */
+html { scrollbar-gutter: stable; }
+
+/* Keep scroll momentum inside overlay surfaces from chaining to the page
+   behind them. Support: Chrome 63+/Firefox 59+/Safari 16+. */
+#share-panel,
+header details > nav { overscroll-behavior: contain; }
+
+/* Tuned link underlines: dropped clear of descenders, hairline-but-crisp, and
+   skipping ink through letter descenders. Only affects already-underlined
+   links (nav/buttons set text-decoration:none and are untouched).
+   Support: text-underline-offset + skip-ink universal; thickness Chrome 87+. */
+a {
+  text-underline-offset: 0.15em;
+  text-decoration-thickness: max(1px, 0.0625em);
+  text-decoration-skip-ink: auto;
+}
+
+/* Baseline focus breathing room. Components add their own outline colour via
+   utilities; this guarantees the ring never hugs the glyph edges. Placed
+   BEFORE the high-contrast block so its stronger two-tone ring still wins.
+   Support: outline-offset universal; :focus-visible Chrome 86+/FF 85+/Saf 15.4+. */
+:focus-visible { outline-offset: 2px; }
+
+/* Textarea grows with its content instead of being stuck at rows=5. Guarded
+   so unsupported browsers keep the rows-based sizing untouched.
+   Support: Chrome 123+/Edge 123+ (Firefox/Safari: not yet → rows=5 fallback). */
+@supports (field-sizing: content) {
+  textarea {
+    field-sizing: content;
+    min-height: 8rem;
+    max-height: 24rem;
+  }
+}
+
+/* Smooth FAQ disclosure via the UA-generated content wrapper. interpolate-size
+   unlocks animating height to/from the `auto` keyword; ::details-content is the
+   box we clip. content-visibility is animated (allow-discrete) so the UA keeps
+   the closed panel hidden from AT + find-in-page until it's actually open.
+   Scoped to [data-faq] so the mobile-nav <details> (which animates via
+   @starting-style below) is left alone. Support: Chrome 129+/Safari 18.2+ —
+   elsewhere ::details-content is ignored and the panel just snaps open/closed.
+   */
+@supports (interpolate-size: allow-keywords) {
+  :root { interpolate-size: allow-keywords; }
+}
+details[data-faq]::details-content {
+  block-size: 0;
+  overflow: clip;
+  content-visibility: hidden;
+  transition: block-size 0.3s ease, content-visibility 0.3s allow-discrete;
+}
+details[data-faq][open]::details-content {
+  block-size: auto;
+  content-visibility: visible;
+}
+
+/* Enter transitions for overlay surfaces, keyed off @starting-style (the style
+   an element has the instant before it's first rendered). */
+
+/* Share popover: fade + slide down on open, reverse on close. The hidden base
+   state (opacity:0) is gated behind @supports so it only applies where the full
+   popover-animation stack exists — a browser without popover support never sees
+   opacity:0 and so can't get stuck with the panel invisible.
+   Support: Chrome 117+/Safari 17.4+/Firefox 129+. */
+@supports (transition-behavior: allow-discrete) {
+  #share-panel {
+    opacity: 0;
+    transform: translateY(-0.25rem);
+    transition: opacity 0.18s ease, transform 0.18s ease,
+      overlay 0.18s allow-discrete, display 0.18s allow-discrete;
+  }
+  #share-panel:popover-open {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @starting-style {
+    #share-panel:popover-open {
+      opacity: 0;
+      transform: translateY(-0.25rem);
+    }
+  }
+}
+
+/* Mobile nav panel: fade + slide on open. No hidden base state is needed (the
+   UA sets closed <details> content to display:none), so this degrades to a
+   plain snap-open where @starting-style is unsupported — safe without a guard.
+   Support: @starting-style Chrome 117+/Safari 17.5+/Firefox 129+. */
+header details[open] > nav {
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+@starting-style {
+  header details[open] > nav {
+    opacity: 0;
+    transform: translateY(-0.25rem);
+  }
+}
+
+/* Honour prefers-reduced-motion: keep every enhancement above, drop only the
+   motion. Disclosure/overlay state changes become instant. */
+@media (prefers-reduced-motion: reduce) {
+  details[data-faq]::details-content,
+  #share-panel,
+  header details[open] > nav {
+    transition: none;
+  }
+}
+
+/* ==========================================================================
+   Cross-document View Transitions — native CSS, MPA-mode. No JS router, no
+   Astro <ClientRouter>: `navigation: auto` tells the browser to animate real
+   same-origin document navigations itself. Pure progressive enhancement — a
+   browser without the feature (or with reduced motion) does an ordinary,
+   instant document swap and every link still works. Only the visual polish is
+   lost, never the navigation.
+   Named groups:
+     • site-header  — the header/nav, identical on every page → frozen still.
+     • vt-post-<slug> — one blog card's featured image morphs into that post's
+       hero image (names matched across the two documents; see PostRow.astro
+       and blog/[...slug].astro). The name is unique per card/post.
+   ========================================================================== */
+@view-transition {
+  navigation: auto;
+}
+
+/* Every transition group borrows the site's easing + a 250ms tempo (this also
+   drives the per-post image morph's size/position interpolation). Universal
+   selector: unsupported engines simply keep the UA default (also 250ms). */
+::view-transition-group(*) {
+  animation-duration: 250ms;
+  animation-timing-function: var(--ease-settle);
+}
+
+/* Root = everything not lifted into its own named group: a fast fade paired
+   with a slight upward slide (old page rises out, new page rises into place). */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 250ms;
+  animation-timing-function: var(--ease-settle);
+}
+::view-transition-old(root) {
+  animation-name: vt-root-out;
+}
+::view-transition-new(root) {
+  animation-name: vt-root-in;
+}
+@keyframes vt-root-out {
+  to {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+@keyframes vt-root-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+/* Header/nav are byte-identical across pages — isolate them in a named group
+   and cancel its animation so they stay rock-steady (no cross-fade, no slide)
+   while the page content transitions underneath. More specific than the
+   universal rule above, so this wins regardless of source order. */
+::view-transition-group(site-header),
+::view-transition-image-pair(site-header),
+::view-transition-old(site-header),
+::view-transition-new(site-header) {
+  animation: none;
+}
+
+/* prefers-reduced-motion: opt out completely. `navigation: none` means the
+   browser performs a plain, instant navigation — no snapshots, no animation,
+   the named groups above are never even captured. */
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+}
+
+/* High-contrast preference — responds to the user's OS/browser "increase
+   contrast" setting (Windows/macOS high-contrast, GNOME, or DevTools emulation).
+   Adjusts TOKENS ONLY, never components: muted text is pushed toward the body
+   text color (≥7:1 on both surfaces), lines are darkened to clearly visible
+   borders, the soft card shadow is solidified into a 1px border-equivalent,
+   the photo scrim goes fully black, and (light only) the brand fill is darkened
+   so white text on it clears 7:1. Dark-mode values are re-declared here because
+   the non-HC dark rules above out-specify this block's :root. */
+@media (prefers-contrast: more) {
+  /* Light (default) */
+  :root {
+    --color-text-muted: #35353f; /* ≥9:1 on both light surfaces */
+    --color-line: #83838f; /* borders clearly visible */
+    --color-brand: #3730a3; /* darkened indigo: white on brand ≥ 8:1 */
+    --color-scrim: #000000; /* max token-level scrim; opacity stops are in Hero.astro */
+    --shadow-card: 0 0 0 1px var(--color-line); /* solid hairline, not a soft shadow */
+  }
+
+  /* Dark — explicit choice */
+  :root[data-theme='dark'] {
+    --color-text-muted: #aeaec0; /* ≥8:1 on both dark surfaces */
+    --color-line: #6e6e7c; /* clearly visible on dark surfaces */
+    --shadow-card: 0 0 0 1px var(--color-line);
+    /* brand stays #8b8ff8: dark ink on it clears 7:1 */
+  }
+
+  /* Dark — system preference, no explicit choice */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']):not([data-theme='dark']) {
+      --color-text-muted: #aeaec0;
+      --color-line: #6e6e7c;
+      --shadow-card: 0 0 0 1px var(--color-line);
+    }
+  }
+
+  /* Two-tone focus ring: a near-black/near-white pair from tokens guarantees a
+     ≥3:1 edge against any surface, brand fill, or hero scrim, in both themes.
+     Unlayered, so it overrides the components' layered outline utilities. */
+  :focus-visible {
+    outline: 3px solid var(--color-text);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 6px var(--color-surface);
+  }
+}
+
+/* ==========================================================================
+   Print stylesheet — every page, one place (no per-component print CSS).
+   SANCTIONED TOKEN EXCEPTION: on paper there is no theme and no dark mode, so
+   this block is the ONE place allowed to hardcode pure #fff / near-black #111.
+   It does so by re-pointing the design tokens to a paper palette — components
+   still reference tokens only, so a user who has toggled dark mode still prints
+   black-on-white. Everything lives inside @media print: zero screen/JS impact.
+   ========================================================================== */
+@media print {
+  /* Repaint the palette for paper by overriding tokens (defeats [data-theme]
+     and prefers-color-scheme with !important). Teal brand → black ink. */
+  :root,
+  :root[data-theme='dark'],
+  :root[data-theme='light'] {
+    --color-surface: #fff !important;
+    --color-surface-alt: #fff !important;
+    --color-text: #111 !important;
+    --color-text-muted: #333 !important;
+    --color-line: #bbb !important; /* hairline that still reads on paper */
+    --color-brand: #000 !important;
+    --color-brand-dark: #000 !important;
+    --color-brand-contrast: #000 !important;
+    --color-scrim: #fff !important;
+    --color-on-hero: #111 !important;
+    --shadow-card: none !important;
+  }
+
+  @page { margin: 18mm 16mm; }
+
+  html,
+  body {
+    background: #fff;
+    color: #111;
+    font-size: 12pt;
+    line-height: 1.5;
+  }
+
+  /* Kill every shadow; hairline borders (via --color-line) carry structure. */
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  /* Reveal-animation safety — THE classic print bug. GSAP leaves inline
+     opacity:0 / translateY on scroll-reveal targets that never entered the
+     viewport; print captures that blank state. Force final values. Inline
+     styles mean !important is genuinely required here. */
+  [data-hero],
+  [data-spec],
+  [data-reveal],
+  [data-stagger] > * {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Hide non-content chrome: nav, mobile menu, footer columns/socials, share
+     menu, OSM map iframe, hero background photo + scrim, CTA bands, agency
+     badge, and any decorative (aria-hidden) layer. */
+  header nav,
+  header details,
+  footer nav,
+  #share-panel,
+  .share-trigger,
+  iframe,
+  .aspect-\[3\/2\],                          /* OSM map's aspect box — collapse it, keep the caption link below */
+  form,                                      /* contact form: dead input boxes are noise on a printed page */
+  article nav:not([aria-label='Breadcrumb']), /* blog prev/next (keeps the breadcrumb trail) */
+  article section,                           /* blog "Keep reading" related-posts block */
+  article ul:has(a[href*='/blog/tags/']),    /* blog tags UI */
+  .-z-10,
+  [aria-hidden='true'],
+  section.bg-brand,
+  [data-site-credit] {                         /* footer agency credit — chrome, not content */
+    display: none !important;
+  }
+
+  /* Header → just the business name as plain text at the top. */
+  header {
+    position: static !important;
+    border: 0 !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+  }
+  header a[href='/'] {
+    font-size: 16pt;
+    font-weight: 700;
+    color: #000;
+  }
+
+  /* Hero: drop the full-viewport photo treatment, flow as a normal block. */
+  section.isolate {
+    min-height: 0 !important;
+    display: block !important;
+  }
+
+  /* Solid (brand-fill) buttons would be black-on-black once brand → #000;
+     render them as a plain outlined label so the CTA text still reads. */
+  a.bg-brand,
+  button.bg-brand {
+    background: transparent !important;
+    color: #000 !important;
+    border: 1px solid #000 !important;
+  }
+
+  /* Contact info is the payload on paper — make phone numbers unmissable. */
+  a[href^='tel:'] {
+    font-weight: 700;
+    color: #000;
+    text-decoration: none;
+  }
+
+  /* Featured images (blog cover, service hero) stay but never dominate. */
+  article img {
+    max-width: 50% !important;
+    height: auto;
+  }
+
+  /* Print the destination after real external content links, but NOT for
+     nav/footer/share (hidden), tel:/mailto: (visible already), or same-page
+     anchors (relative → never match ^=http). Scoped to <main> excludes footer. */
+  main a[href^='http']::after {
+    content: ' (' attr(href) ')';
+    font-size: 85%;
+    font-weight: normal;
+    word-break: break-all;
+  }
+
+  /* Blog-post print footer (hidden on screen via .hidden; shown here). */
+  [data-print-footer] {
+    display: block !important;
+    margin-top: 16pt;
+    padding-top: 8pt;
+    border-top: 1px solid #bbb;
+    font-family: var(--font-mono);
+    font-size: 9pt;
+    color: #333;
+  }
+
+  /* Page-break hygiene. */
+  h1, h2, h3 { break-after: avoid; }
+  p, li, blockquote { orphans: 3; widows: 3; }
+  figure,
+  blockquote,
+  pre,
+  img,
+  tr,
+  li,
+  details,
+  [data-spec],
+  .shadow-card {
+    break-inside: avoid;
+  }
+}

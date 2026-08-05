@@ -1,0 +1,6 @@
+allowBuilds:
+  esbuild: true
+  sharp: true
+  workerd: true
+minimumReleaseAgeExclude:
+  - '@ampolic/ui@0.1.0'

@@ -1,0 +1,17 @@
+name: CI
+
+on:
+  push:
+    branches: [dev]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    # Hosted in the public ampolic/.github repo — public repos cannot call
+    # reusable workflows that live in private repos (ampolic-core is private).
+    uses: ampolic/.github/.github/workflows/site-ci.yml@main
+    with:
+      node-version: '22'
+    secrets:
+      packages-token: ${{ secrets.PACKAGES_TOKEN }}
