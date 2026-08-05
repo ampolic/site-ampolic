@@ -72,24 +72,22 @@ collections:
       - { name: photo, label: Photo, widget: image }
       - { name: body, label: Bio, widget: markdown }
 
-  - name: testimonials
-    label: Testimonials
-    folder: src/content/testimonials
+  - name: pricing
+    label: Pricing tiers
+    folder: src/content/pricing
     create: true
     extension: md
+    summary: '{{fields.order}} · {{fields.name}} — {{fields.price}}{{fields.period}}'
+    sortable_fields: ['order', 'name']
     fields:
-      - { name: author, label: Author, widget: string }
-      - { name: role, label: Role, widget: string }
-      - { name: quote, label: Quote, widget: text }
-      - {
-          name: rating,
-          label: Rating (1-5),
-          widget: number,
-          required: false,
-          min: 1,
-          max: 5,
-        }
-      - { name: body, label: Body, widget: markdown, required: false }
+      - { name: name, label: Tier name, widget: string }
+      - { name: price, label: Current price (e.g. $39), widget: string }
+      - { name: regular, label: Regular price (struck through), widget: string, required: false }
+      - { name: period, label: Period, widget: string, default: /mo }
+      - { name: blurb, label: Blurb, widget: string, required: false }
+      - { name: features, label: Features, widget: list, field: { name: feature, label: Feature, widget: string } }
+      - { name: featured, label: Featured (highlighted card), widget: boolean, default: false }
+      - { name: order, label: Order, widget: number }
 
   - name: faq
     label: FAQ

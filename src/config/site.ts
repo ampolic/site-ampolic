@@ -53,17 +53,6 @@ export interface Site {
     licenses: string[];
     certifications: string[];
   };
-  /* Pricing tiers rendered on the homepage #pricing section. `regular` is the
-     struck-through list price shown next to the current `price`. */
-  pricing: Array<{
-    name: string;
-    price: string;
-    regular: string;
-    period: string;
-    blurb: string;
-    features: string[];
-    featured?: boolean;
-  }>;
   /* Literal colors for build-time OG social cards. Satori needs concrete values;
      keep these in sync with the corresponding @theme tokens in global.css. */
   og: { bg: string; fg: string; brand: string };
@@ -141,55 +130,6 @@ export const site: Site = {
     licenses: [],
     certifications: [],
   },
-  pricing: [
-    {
-      name: 'One-Pager',
-      price: '$39',
-      regular: '$99',
-      period: '/mo',
-      blurb: 'Best for new businesses that need a clean, professional web presence',
-      features: [
-        'Custom one-page website',
-        'Mobile-friendly design',
-        'Contact form + email notifications',
-        'Initial SEO setup',
-        'Hosting included',
-        'Domain setup',
-      ],
-    },
-    {
-      name: 'Small Business Bundle',
-      price: '$99',
-      regular: '$199',
-      period: '/mo',
-      blurb: 'For businesses that need more room to explain services, locations, and customer trust signals',
-      features: [
-        'Everything in One-Pager',
-        'Up to 10 pages',
-        'Service, about, contact, and location pages',
-        'Ongoing SEO',
-        'Basic content updates',
-        'Domain and maintenance included',
-      ],
-      featured: true,
-    },
-    {
-      name: 'Custom Package',
-      price: '$199+',
-      regular: '$499+',
-      period: '/mo',
-      blurb: 'For businesses that need advanced features, ongoing content, or custom workflows',
-      features: [
-        'Everything in Bundle',
-        'Blog system',
-        'Custom email hosting',
-        'Complex forms',
-        'E-commerce',
-        'Advanced SEO and integrations',
-        'Priority support',
-      ],
-    },
-  ],
   /* Keep in sync with @theme tokens in global.css. */
   og: { bg: '#061221', fg: '#f4f8fc', brand: '#ff9e62' },
   legal: {

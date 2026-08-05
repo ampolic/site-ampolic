@@ -4,7 +4,7 @@ import {
   serviceSchema,
   pageSchema,
   teamSchema,
-  testimonialSchema,
+  pricingSchema,
   faqSchema,
 } from './content/schemas';
 
@@ -23,13 +23,13 @@ const team = defineCollection({
   loader: glob({ base: './src/content/team', pattern: '**/[^_]*.{md,mdx}' }),
   schema: ({ image }) => teamSchema.extend({ photo: image() }),
 });
-const testimonials = defineCollection({
-  loader: glob({ base: './src/content/testimonials', pattern: '**/[^_]*.{md,mdx}' }),
-  schema: testimonialSchema,
+const pricing = defineCollection({
+  loader: glob({ base: './src/content/pricing', pattern: '**/[^_]*.{md,mdx}' }),
+  schema: pricingSchema,
 });
 const faq = defineCollection({
   loader: glob({ base: './src/content/faq', pattern: '**/[^_]*.{md,mdx}' }),
   schema: faqSchema,
 });
 
-export const collections = { services, pages, team, testimonials, faq };
+export const collections = { services, pages, team, pricing, faq };
