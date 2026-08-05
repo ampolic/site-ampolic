@@ -6,7 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // TODO before launch: replace with the real production URL.
 export default defineConfig({
-  site: 'https://example.com',
+  site: 'https://ampolic.com',
   output: 'static',
   // Canonical URLs carry no trailing slash. Matches Cloudflare Pages' default,
   // which serves `about/index.html` at `/about` and drops any trailing slash.
