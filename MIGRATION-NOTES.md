@@ -12,6 +12,8 @@ from `ampolic-astro-template` and porting the live ampolic.com content.
   `TURNSTILE_SECRET_KEY`, `RESEND_API_KEY`, `CONTACT_TO_EMAIL`,
   `CONTACT_FROM_EMAIL` set in Cloudflare, and `site.form.turnstileSiteKey` is
   still the Turnstile test key. Form will not deliver email until configured.
+  **Status 2026-08-05: all set in Pages EXCEPT `RESEND_API_KEY` — intentionally
+  skipped at launch, so the form submits but does not deliver email yet.**
 - **Legal pages.** `legal.effectiveDate` / `lastReviewed` are set to the
   generation date (TODO in site.ts); privacy/terms text needs counsel review.
   Jurisdiction set to Ohio.
