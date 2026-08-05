@@ -1,7 +1,7 @@
 ---
 title: Business Email & Digital Tools
 summary: Custom-domain email, email hosting management, and practical digital tools
-icon: lucide:mail
+icon: services/business-solutions
 order: 6
 featured: true
 ---

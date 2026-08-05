@@ -19,7 +19,9 @@ const Heading = `h${headingLevel}` as const;
   )}
   <div class="flex flex-1 flex-col p-6">
     <div class="flex items-start justify-between">
-      <Icon name={icon} class="size-8 text-brand" />
+      <span class="grid size-12 place-items-center rounded-(--radius-base) bg-brand/10 text-brand" aria-hidden="true">
+        <Icon name={icon} class="size-6" />
+      </span>
       {index && <span class="font-mono text-sm text-text-muted">{index}</span>}
     </div>
     <Heading class="mt-6 font-display text-xl font-semibold tracking-tight">{title}</Heading>

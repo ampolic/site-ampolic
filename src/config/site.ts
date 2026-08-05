@@ -191,7 +191,7 @@ export const site: Site = {
     },
   ],
   /* Keep in sync with @theme tokens in global.css. */
-  og: { bg: '#0e0f14', fg: '#f0f1f6', brand: '#8b8ff8' },
+  og: { bg: '#061221', fg: '#f4f8fc', brand: '#ff9e62' },
   legal: {
     businessLegalName: 'Ampolic Digital Solutions LLC',
     contactEmail: 'claude@ampolic.com',

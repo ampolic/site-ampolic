@@ -8,19 +8,26 @@ interface Props {
   subhead?: string;
   ctaLabel?: string;
   ctaHref?: string;
+  secondaryLabel?: string;
+  secondaryHref?: string;
   phone?: string;
   phoneLabel?: string;
   image?: ImageMetadata;
   imageAlt?: string;
 }
-const { eyebrow, headline, subhead, ctaLabel, ctaHref, phone, phoneLabel, image, imageAlt } = Astro.props;
+const { eyebrow, headline, subhead, ctaLabel, ctaHref, secondaryLabel, secondaryHref, phone, phoneLabel, image, imageAlt } = Astro.props;
+// Secondary CTA over a photo uses constant on-hero tokens (Button's inverse
+// variant flips with the theme, which would go dark-on-dark over the scrim).
+const secondaryCls = image
+  ? 'inline-flex min-h-11 items-center justify-center rounded-(--radius-base) border border-on-hero/60 px-5 font-medium text-on-hero hover:bg-on-hero/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-on-hero'
+  : 'inline-flex min-h-11 items-center justify-center rounded-(--radius-base) border border-line px-5 font-medium text-text hover:border-brand hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand';
 // Over a photo, text sits on the scrim (constant near-white); otherwise on the surface.
 const eyebrowColor = image ? 'text-brand-dark' : 'text-brand';
 const headColor = image ? 'text-on-hero' : 'text-text';
 const subColor = image ? 'text-on-hero/85' : 'text-text-muted';
 const phoneColor = image ? 'text-on-hero' : 'text-text';
 ---
-<section class:list={[image ? 'relative isolate flex min-h-[100svh] items-center overflow-hidden' : 'py-(--spacing-section)']}>
+<section class:list={[image ? 'relative isolate flex min-h-[72svh] items-center overflow-hidden' : 'py-(--spacing-section)']}>
   {image && (
     <>
       <Image
@@ -46,6 +53,7 @@ const phoneColor = image ? 'text-on-hero' : 'text-text';
       {(ctaLabel && ctaHref) || phone ? (
         <div class="mt-9 flex flex-wrap items-center gap-x-7 gap-y-4" data-hero="4">
           {ctaLabel && ctaHref && <Button href={ctaHref}>{ctaLabel}</Button>}
+          {secondaryLabel && secondaryHref && <a href={secondaryHref} class={secondaryCls}>{secondaryLabel}</a>}
           {phone && (
             <a href={`tel:${phone}`} class:list={['font-mono text-base underline-offset-4 hover:text-brand hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand', phoneColor]}>{phoneLabel ?? phone}</a>
           )}

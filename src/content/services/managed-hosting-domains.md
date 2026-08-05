@@ -1,7 +1,7 @@
 ---
 title: Managed Hosting & Domains
 summary: Reliable website hosting, domain setup, DNS management, SSL, and basic technical upkeep
-icon: lucide:server
+icon: services/security
 order: 3
 featured: true
 ---

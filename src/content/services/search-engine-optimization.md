@@ -1,7 +1,7 @@
 ---
 title: Search Engine Optimization
 summary: SEO planning, page structure, metadata, and content guidance
-icon: lucide:search
+icon: services/seo
 order: 2
 featured: true
 ---

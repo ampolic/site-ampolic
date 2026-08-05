@@ -3,41 +3,42 @@ import { site } from '../config/site';
 import { Icon } from 'astro-icon/components';
 import { EmailLink } from '@ampolic/ui';
 const year = new Date().getFullYear();
+// Dark navy footer like the live site — scrim/on-hero are constant across themes.
 ---
-<footer class="border-t border-line bg-surface-alt">
+<footer class="bg-scrim text-on-hero">
   <div class="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:grid-cols-3">
     <div>
       <p class="font-display text-lg font-semibold">{site.name}</p>
-      <p class="mt-2 text-text-muted">{site.description}</p>
+      <p class="mt-2 text-on-hero/70">{site.description}</p>
     </div>
-    <div class="text-text-muted">
-      <p><a href={`tel:${site.phone}`} class="hover:text-text">{site.phone}</a></p>
-      <p><EmailLink email={site.email} class="hover:text-text" /></p>
+    <div class="text-on-hero/70">
+      <p><a href={`tel:${site.phone}`} class="hover:text-on-hero">{site.phone}</a></p>
+      <p><EmailLink email={site.email} class="hover:text-on-hero" /></p>
       <p class="mt-3">{site.serviceArea}</p>
     </div>
     <nav class="flex flex-col gap-2" aria-label="Footer">
-      {site.nav.map((i) => <a href={i.href} class="text-text-muted hover:text-text">{i.label}</a>)}
-      <div class="mt-2 -ml-3 flex gap-3">
+      {site.nav.map((i) => <a href={i.href} class="text-on-hero/70 hover:text-on-hero">{i.label}</a>)}
+      <div class="mt-2 -ml-1 flex gap-3">
         {site.socials.map((s) => (
           <a href={s.href} aria-label={s.label}
-             class="inline-grid size-11 place-items-center rounded-(--radius-base) text-text-muted hover:text-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
+             class="inline-grid size-11 place-items-center rounded-(--radius-base) bg-on-hero/10 text-on-hero/80 hover:bg-on-hero/20 hover:text-on-hero focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-on-hero">
             <Icon name={s.icon} class="size-5" />
           </a>
         ))}
       </div>
     </nav>
   </div>
-  <div class="border-t border-line">
-    <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-4 gap-y-3 px-4 py-4 text-xs text-text-muted">
+  <div class="border-t border-on-hero/15">
+    <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-4 gap-y-3 px-4 py-4 text-xs text-on-hero/70">
       <p>© {year} {site.legalName}</p>
       <nav class="flex gap-4" aria-label="Legal">
-        <a href="/privacy" class="hover:text-text">Privacy</a>
-        <a href="/terms" class="hover:text-text">Terms</a>
-        <a href="/accessibility" class="hover:text-text">Accessibility</a>
+        <a href="/privacy" class="hover:text-on-hero">Privacy</a>
+        <a href="/terms" class="hover:text-on-hero">Terms</a>
+        <a href="/accessibility" class="hover:text-on-hero">Accessibility</a>
       </nav>
       {site.credit.enabled && (
         <a href={site.credit.url} target="_blank" rel="noopener" data-site-credit
-           class="underline-offset-2 hover:text-text hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
+           class="underline-offset-2 hover:text-on-hero hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-on-hero">
           Site by {site.credit.name}
         </a>
       )}
