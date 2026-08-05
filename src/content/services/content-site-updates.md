@@ -1,7 +1,7 @@
 ---
 title: Content & Site Updates
 summary: Page edits, service changes, announcements, blog/news updates, and improvements
-icon: lucide:pen-line
+icon: services/mobile-responsive
 order: 5
 featured: true
 ---

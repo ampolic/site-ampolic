@@ -5,8 +5,9 @@ import Hero from '../components/Hero.astro';
 import ServiceCard from '../components/ServiceCard.astro';
 import PricingTiers from '../components/PricingTiers.astro';
 import ContactForm from '../components/ContactForm.astro';
-import { SectionHeading, Card, FaqList, EmailLink, Button } from '@ampolic/ui';
+import { SectionHeading, Card, FaqList, EmailLink } from '@ampolic/ui';
 import { site } from '../config/site';
+import heroImage from '../assets/images/hero.jpg';
 
 const services = (await getCollection('services'))
   .filter((s) => s.data.featured)
@@ -53,14 +54,16 @@ const process = [
 ---
 <Base title={homeTitle} description={site.description}>
   <Hero
-    eyebrow={`Digital marketing · ${site.city}, ${site.address.region}`}
-    headline="Digital marketing for small businesses."
+    eyebrow="Digital marketing for small businesses"
+    headline={site.name}
     subhead={site.description}
+    ctaLabel={site.cta.label}
+    ctaHref={site.cta.href}
+    secondaryLabel="Learn More"
+    secondaryHref="/#about"
+    image={heroImage}
+    imageAlt=""
   />
-  <div class="mx-auto -mt-4 flex max-w-6xl flex-wrap items-center gap-4 px-4 pb-(--spacing-section)">
-    <Button href="/#contact">Contact Us</Button>
-    <Button href="/#about" variant="outline">Learn More</Button>
-  </div>
 
   <!-- Spec strip: credibility as one mono data row -->
   <section class="border-y border-line" aria-label="Company facts">

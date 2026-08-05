@@ -1,7 +1,7 @@
 ---
 title: Custom Website Design
 summary: Modern, mobile-first websites built around your brand, services, and customers.
-icon: lucide:layout-template
+icon: services/web-design
 order: 1
 featured: true
 ---

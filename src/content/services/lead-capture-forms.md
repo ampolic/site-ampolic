@@ -1,7 +1,7 @@
 ---
 title: Lead Capture Forms
 summary: Contact forms, quote requests, intake forms, and lead notifications built directly into your website
-icon: lucide:inbox
+icon: services/email
 order: 4
 featured: true
 ---

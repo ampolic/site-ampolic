@@ -2,26 +2,42 @@
 import { site } from '../config/site';
 import ThemeToggle from './ThemeToggle.astro';
 import { Button } from '@ampolic/ui';
+import { Image } from 'astro:assets';
+import logo from '../assets/images/ampolic-logo.png';
 const path = Astro.url.pathname;
+// Anchors ('/#about') are never "current"; real routes match by prefix.
+const isCurrent = (href: string) => !href.includes('#') && path.startsWith(href);
+const digits = site.phone.replace(/\D/g, '').slice(-10);
+const phoneLabel = `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
 ---
 <header class="sticky top-0 z-50 border-b border-line bg-surface/90 backdrop-blur" style="view-transition-name: site-header">
-  <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
-    <a href="/" class="font-display text-lg font-semibold">{site.name}</a>
-    <nav class="hidden items-center gap-6 md:flex" aria-label="Primary">
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-2.5">
+    <a href="/" class="flex items-center gap-3 rounded-(--radius-base) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
+      <Image src={logo} alt="" width={80} height={80} class="size-10 rounded-full" loading="eager" />
+      <span class="leading-tight">
+        <span class="block font-display text-base font-bold tracking-tight">{site.name}</span>
+        <span class="hidden text-xs text-text-muted sm:block">Websites, SEO &amp; digital tools</span>
+      </span>
+    </a>
+    <nav class="hidden items-center gap-1 rounded-full border border-line bg-surface-alt/60 p-1 lg:flex" aria-label="Primary">
       {site.nav.map((i) => (
-        <a href={i.href} aria-current={path.startsWith(i.href) ? 'page' : undefined}
-           class="rounded-(--radius-base) text-text-muted hover:text-text aria-[current=page]:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">{i.label}</a>
+        <a href={i.href} aria-current={isCurrent(i.href) ? 'page' : undefined}
+           class="rounded-full px-3.5 py-1.5 text-sm text-text-muted hover:text-text aria-[current=page]:bg-brand/15 aria-[current=page]:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">{i.label}</a>
       ))}
+    </nav>
+    <div class="hidden items-center gap-3 lg:flex">
+      <a href={`tel:${site.phone}`} class="rounded-full border border-line px-4 py-2 font-mono text-sm text-text hover:border-brand hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">{phoneLabel}</a>
       <ThemeToggle />
       <Button href={site.cta.href}>{site.cta.label}</Button>
-    </nav>
-    <details class="relative md:hidden">
+    </div>
+    <details class="relative lg:hidden">
       <summary class="grid size-11 cursor-pointer place-items-center rounded-(--radius-base)" aria-label="Menu">☰</summary>
-      <nav class="absolute right-0 mt-2 flex w-48 flex-col gap-1 rounded-(--radius-base) border border-line bg-surface p-2 shadow-card" aria-label="Mobile">
+      <nav class="absolute right-0 mt-2 flex w-56 flex-col gap-1 rounded-(--radius-base) border border-line bg-surface p-2 shadow-card" aria-label="Mobile">
         {site.nav.map((i) => (
-          <a href={i.href} aria-current={path.startsWith(i.href) ? 'page' : undefined}
-             class="rounded-(--radius-base) px-3 py-2 hover:bg-surface-alt aria-[current=page]:text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">{i.label}</a>
+          <a href={i.href} aria-current={isCurrent(i.href) ? 'page' : undefined}
+             class="rounded-(--radius-base) px-3 py-2 hover:bg-surface-alt aria-[current=page]:text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">{i.label}</a>
         ))}
+        <a href={`tel:${site.phone}`} class="rounded-(--radius-base) px-3 py-2 font-mono text-sm hover:bg-surface-alt focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">{phoneLabel}</a>
         <ThemeToggle />
         <Button href={site.cta.href}>{site.cta.label}</Button>
       </nav>
