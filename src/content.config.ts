@@ -21,7 +21,7 @@ const pages = defineCollection({
 });
 const team = defineCollection({
   loader: glob({ base: './src/content/team', pattern: '**/[^_]*.{md,mdx}' }),
-  schema: ({ image }) => teamSchema.extend({ photo: image() }),
+  schema: teamSchema,
 });
 const pricing = defineCollection({
   loader: glob({ base: './src/content/pricing', pattern: '**/[^_]*.{md,mdx}' }),

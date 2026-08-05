@@ -1,13 +1,25 @@
 ---
 import { getCollection } from 'astro:content';
+import type { ImageMetadata } from 'astro';
 import Base from '../layouts/Base.astro';
 import { CtaBand, TeamMemberCard } from '@ampolic/ui';
 import { site } from '../config/site';
 
 /* Members come from the `team` content collection — adding a person is a
-   markdown file (Decap-editable), no code changes. Bio = the markdown body
-   (plain prose; rendered as text by TeamMemberCard). */
+   markdown file (CMS-editable), no code changes. Bio = the markdown body
+   (plain prose; rendered as text by TeamMemberCard). Photos are absolute
+   repo paths resolved through the glob below: an entry pointing at a
+   missing file FAILS THE BUILD here, by design. */
+const photos = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/images/**/*.{jpg,jpeg,png,webp,avif}',
+  { eager: true }
+);
 const members = (await getCollection('team')).sort((a, b) => a.data.order - b.data.order);
+const photoOf = (m: (typeof members)[number]) => {
+  const mod = photos[m.data.photo];
+  if (!mod) throw new Error(`team/${m.id}: photo not found: ${m.data.photo}`);
+  return mod.default;
+};
 ---
 <Base title="Meet the Team" description={`Meet the people behind ${site.name} — the Toledo, Ohio team building premium, affordable websites.`}>
   <section class="py-(--spacing-section)">
@@ -24,7 +36,7 @@ const members = (await getCollection('team')).sort((a, b) => a.data.order - b.da
             name={m.data.name}
             role={m.data.role}
             bio={(m.body ?? '').trim()}
-            photo={m.data.photo}
+            photo={photoOf(m)}
             linkLabel={m.data.linkLabel}
             linkHref={m.data.website}
           />

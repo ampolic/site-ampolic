@@ -21,11 +21,11 @@ backend:
 
 
 # Media library = the site's real image directory, so the CMS picker can select
-# existing assets (team photos, work screenshots, …). public_folder is RELATIVE:
-# collection entries live at src/content/<collection>/x.md, so ../../assets/images
-# resolves correctly and Astro's image() schema validation keeps working.
+# existing assets (team photos, work screenshots, …). Paths are stored absolute
+# (/src/assets/images/…) — Sveltia requires it; pages resolve them via
+# import.meta.glob, which fails the build on any broken path.
 media_folder: src/assets/images
-public_folder: ../../assets/images
+public_folder: /src/assets/images
 
 collections:
   - name: pages
