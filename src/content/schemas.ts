@@ -35,11 +35,17 @@ export const teamSchema = z.object({
   linkLabel: z.string().default('Visit Website'),
 });
 
-export const testimonialSchema = z.object({
-  author: z.string(),
-  role: z.string(),
-  quote: z.string(),
-  rating: z.number().min(1).max(5).optional(),
+/* Pricing tiers on the homepage #pricing section — one file per tier,
+   CMS-editable. `regular` is the struck-through list price. */
+export const pricingSchema = z.object({
+  name: z.string(),
+  price: z.string(),
+  regular: z.string().optional(),
+  period: z.string().default('/mo'),
+  blurb: z.string().optional(),
+  features: z.array(z.string()),
+  featured: z.boolean().default(false),
+  order: z.number(),
 });
 
 export const faqSchema = z.object({

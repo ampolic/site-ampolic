@@ -13,6 +13,9 @@ const services = (await getCollection('services'))
   .filter((s) => s.data.featured)
   .sort((a, b) => a.data.order - b.data.order);
 const faqEntries = (await getCollection('faq')).sort((a, b) => a.data.order - b.data.order);
+const pricingTiers = (await getCollection('pricing'))
+  .sort((a, b) => a.data.order - b.data.order)
+  .map((t) => t.data);
 const faqItems = await Promise.all(
   faqEntries.map(async (f) => ({ question: f.data.question, Content: (await render(f)).Content }))
 );
@@ -137,7 +140,7 @@ const process = [
         <SectionHeading eyebrow="Pricing" heading="Simple monthly plans" lede="No contracts, no surprise invoices. Every plan includes hosting, domain, and support." />
       </div>
       <div class="mt-12">
-        <PricingTiers tiers={site.pricing} ctaLabel="Get started" ctaHref="/#contact" />
+        <PricingTiers tiers={pricingTiers} ctaLabel="Get started" ctaHref="/#contact" />
       </div>
     </div>
   </section>
