@@ -3,6 +3,7 @@ name: Sam Scherf
 role: CEO / Co-Owner
 order: 1
 website: https://samscherf.com
+linkLabel: ''
 photo: /src/assets/images/sam-scherf.jpg
 ---
 
