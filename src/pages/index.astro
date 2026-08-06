@@ -54,10 +54,10 @@ const why = [
 ];
 
 const process = [
-  { step: '01', title: 'Reach out', body: 'We discuss your business needs and goals.' },
-  { step: '02', title: 'We build together', body: 'We draft the design and content; you review and refine it until it sounds like you.' },
-  { step: '03', title: 'Launch in 1–2 weeks', body: 'Your site goes live with hosting, SSL, and SEO setup handled.' },
-  { step: '04', title: 'We keep it running', body: 'Ongoing updates and maintenance are part of your plan.' },
+  { step: '01', icon: 'lucide:message-circle-more', title: 'Reach out', body: 'We discuss your business needs and goals.' },
+  { step: '02', icon: 'lucide:square-pen', title: 'We build together', body: 'We draft the design and content; you review and refine it until it sounds like you.' },
+  { step: '03', icon: 'lucide:rocket', title: 'Launch in 1–2 weeks', body: 'Your site goes live with hosting, SSL, and SEO setup handled.' },
+  { step: '04', icon: 'lucide:shield-check', title: 'We keep it running', body: 'Ongoing updates and maintenance are part of your plan.' },
 ];
 ---
 <Base title={homeTitle} description={site.description}>
@@ -126,16 +126,68 @@ const process = [
 
   <section id="process" class="bg-surface-alt py-(--spacing-section)">
     <div class="mx-auto max-w-6xl px-4">
-      <div data-reveal><SectionHeading eyebrow="Process" heading="How it works" /></div>
-      <ol class="mt-12 grid gap-6 md:grid-cols-4" data-stagger>
-        {process.map((p) => (
-          <li class="rounded-(--radius-base) border border-line bg-surface p-6 shadow-card">
-            <span class="font-mono text-sm text-brand">{p.step}</span>
-            <h3 class="mt-4 font-display text-lg font-semibold tracking-tight">{p.title}</h3>
-            <p class="mt-2 text-text-muted">{p.body}</p>
+      <div class="grid items-center gap-10 lg:grid-cols-2" data-reveal>
+        <div>
+          <p class="text-brand font-mono text-sm font-semibold tracking-wider uppercase">Process</p>
+          <h2 class="font-display mt-3 text-4xl font-semibold text-balance sm:text-5xl">How it works</h2>
+          <p class="text-text-muted mt-5 max-w-[48ch] text-lg">
+            A simple, proven process to take your project from idea to launch&mdash;and beyond.
+          </p>
+          <span class="bg-brand mt-6 block h-1 w-16 rounded-full" aria-hidden="true"></span>
+        </div>
+        <!-- Decorative CSS "browser window" with rocket chip — no image assets. -->
+        <div class="relative mx-auto hidden h-64 w-full max-w-md lg:block" aria-hidden="true">
+          <span class="bg-brand/10 absolute -top-4 right-8 size-44 rounded-full"></span>
+          <div class="border-line bg-surface shadow-card absolute top-6 right-0 w-80 rounded-(--radius-base) border">
+            <div class="border-line flex items-center gap-1.5 border-b px-4 py-3">
+              <span class="bg-line size-2.5 rounded-full"></span>
+              <span class="bg-line size-2.5 rounded-full"></span>
+              <span class="bg-brand/40 size-2.5 rounded-full"></span>
+            </div>
+            <div class="flex gap-4 p-5">
+              <span class="bg-surface-alt h-24 w-24 shrink-0 rounded-md"></span>
+              <span class="flex-1 space-y-2.5">
+                <span class="bg-line block h-2 w-full rounded"></span>
+                <span class="bg-line block h-2 w-5/6 rounded"></span>
+                <span class="bg-line block h-2 w-2/3 rounded"></span>
+                <span class="bg-brand mt-4 block h-6 w-16 rounded-md"></span>
+              </span>
+            </div>
+          </div>
+          <div class="border-line bg-surface shadow-card absolute bottom-2 left-10 flex size-16 items-center justify-center rounded-(--radius-base) border">
+            <Icon name="lucide:rocket" class="text-brand size-7" />
+          </div>
+        </div>
+      </div>
+      <ol class="mt-16 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4" data-stagger>
+        {process.map((p, i) => (
+          <li class="relative flex flex-col items-center">
+            <span class="bg-surface shadow-card z-10 flex size-16 items-center justify-center rounded-full">
+              <span class="bg-brand/10 text-brand flex size-12 items-center justify-center rounded-full">
+                <Icon name={p.icon} class="size-6" />
+              </span>
+            </span>
+            <div class="border-line bg-surface shadow-card -mt-8 w-full rounded-(--radius-base) border px-6 pt-12 pb-6 text-center">
+              <p class="text-brand font-display text-3xl font-semibold">{p.step}</p>
+              <h3 class="font-display mt-2 text-lg font-semibold tracking-tight">{p.title}</h3>
+              <p class="text-text-muted mt-2 text-sm">{p.body}</p>
+            </div>
+            {i < process.length - 1 && (
+              <span class="absolute top-24 right-0 hidden translate-x-1/2 items-center lg:flex" aria-hidden="true">
+                <span class="bg-brand/40 h-px w-4"></span>
+                <span class="bg-brand text-brand-contrast flex size-7 items-center justify-center rounded-full">
+                  <Icon name="lucide:chevron-right" class="size-4" />
+                </span>
+                <span class="bg-brand/40 h-px w-4"></span>
+              </span>
+            )}
           </li>
         ))}
       </ol>
+      <p class="text-text-muted mt-12 flex items-center justify-center gap-2" data-reveal>
+        <Icon name="lucide:shield-check" class="text-brand size-5" aria-hidden="true" />
+        Clear steps. Great communication. Results that last.
+      </p>
     </div>
   </section>
 
