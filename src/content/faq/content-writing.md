@@ -1,5 +1,6 @@
 ---
 question: Who writes the website content?
+icon: lucide:pencil
 order: 4
 ---
 

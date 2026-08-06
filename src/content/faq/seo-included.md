@@ -1,5 +1,6 @@
 ---
 question: What does "SEO included" actually mean?
+icon: lucide:trending-up
 order: 5
 ---
 

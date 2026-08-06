@@ -1,5 +1,6 @@
 ---
 question: Do I own my website and domain?
+icon: lucide:globe
 order: 1
 ---
 

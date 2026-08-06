@@ -1,5 +1,6 @@
 ---
 question: What does support look like?
+icon: lucide:headphones
 order: 6
 ---
 

@@ -55,5 +55,7 @@ export const pricingSchema = z.object({
 
 export const faqSchema = z.object({
   question: z.string(),
+  /* Optional astro-icon name (e.g. lucide:globe) shown in a tinted circle. */
+  icon: z.string().optional(),
   order: z.number(),
 });
