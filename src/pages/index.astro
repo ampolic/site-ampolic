@@ -5,7 +5,8 @@ import Hero from '../components/Hero.astro';
 import ServiceCard from '../components/ServiceCard.astro';
 import { PricingTiers } from '@ampolic/ui';
 import ContactForm from '../components/ContactForm.astro';
-import { SectionHeading, Card, FaqList, EmailLink } from '@ampolic/ui';
+import { SectionHeading, Card, FaqList, EmailLink, Button } from '@ampolic/ui';
+import { Icon } from 'astro-icon/components';
 import { site } from '../config/site';
 import heroImage from '../assets/images/hero.jpg';
 
@@ -17,7 +18,11 @@ const pricingTiers = (await getCollection('pricing'))
   .sort((a, b) => a.data.order - b.data.order)
   .map((t) => t.data);
 const faqItems = await Promise.all(
-  faqEntries.map(async (f) => ({ question: f.data.question, Content: (await render(f)).Content }))
+  faqEntries.map(async (f) => ({
+    question: f.data.question,
+    icon: f.data.icon,
+    Content: (await render(f)).Content,
+  }))
 );
 
 // Display phone: +1-419-740-1850 → (419) 740-1850
@@ -147,8 +152,47 @@ const process = [
 
   <section id="faq" class="bg-surface-alt py-(--spacing-section)">
     <div class="mx-auto max-w-6xl px-4">
-      <div data-reveal><SectionHeading eyebrow="FAQ" heading="Common questions" /></div>
-      <div class="mt-10"><FaqList items={faqItems} /></div>
+      <div class="grid gap-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-14">
+        <div class="space-y-8" data-reveal>
+          <div>
+            <p class="text-brand font-mono text-sm font-semibold tracking-wider uppercase">FAQ</p>
+            <h2 class="font-display mt-3 text-4xl font-semibold text-balance sm:text-5xl">Common Questions</h2>
+            <p class="text-text-muted mt-5 max-w-[42ch] text-lg">
+              Everything you need to know before getting started. If you don't see your question here,
+              reach out&mdash;we're happy to help.
+            </p>
+          </div>
+          <Card>
+            <span class="bg-brand/10 text-brand flex size-12 items-center justify-center rounded-full" aria-hidden="true">
+              <Icon name="lucide:message-circle-question" class="size-6" />
+            </span>
+            <h3 class="font-display mt-4 text-xl font-semibold">Still have questions?</h3>
+            <p class="text-text-muted mt-2">We're here to help you make the right decision.</p>
+            <div class="mt-5"><Button href="/#contact">Book a free strategy call</Button></div>
+          </Card>
+        </div>
+        <div data-reveal><FaqList items={faqItems} answerHeight="9rem" /></div>
+      </div>
+      <ul class="mt-14 grid grid-cols-2 gap-x-6 gap-y-8 lg:grid-cols-4" data-stagger>
+        {
+          [
+            { icon: 'lucide:shield-check', title: 'No lock-ins', sub: 'Cancel anytime' },
+            { icon: 'lucide:user-check', title: '100% ownership', sub: 'You own everything' },
+            { icon: 'lucide:message-square', title: 'Clear communication', sub: 'We keep you in the loop' },
+            { icon: 'lucide:life-buoy', title: 'Ongoing support', sub: "We're here when you need us" },
+          ].map((t) => (
+            <li class="flex items-start gap-3">
+              <span class="bg-brand/10 text-brand flex size-10 shrink-0 items-center justify-center rounded-full" aria-hidden="true">
+                <Icon name={t.icon} class="size-5" />
+              </span>
+              <div>
+                <p class="font-medium">{t.title}</p>
+                <p class="text-text-muted text-sm">{t.sub}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
     </div>
   </section>
 

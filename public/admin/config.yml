@@ -102,5 +102,6 @@ collections:
     sortable_fields: ['order', 'question']
     fields:
       - { name: question, label: Question, widget: string }
+      - { name: icon, label: 'Icon (lucide name, e.g. lucide:globe)', widget: string, required: false }
       - { name: order, label: Order, widget: number }
       - { name: body, label: Answer, widget: markdown }

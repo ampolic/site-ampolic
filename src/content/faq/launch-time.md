@@ -1,5 +1,6 @@
 ---
 question: How long does it take to launch my website?
+icon: lucide:clock
 order: 3
 ---
 

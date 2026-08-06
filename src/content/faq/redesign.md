@@ -1,5 +1,6 @@
 ---
 question: Can you redesign my existing website?
+icon: lucide:brush
 order: 7
 ---
 
