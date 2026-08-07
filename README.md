@@ -3,8 +3,9 @@
 The [ampolic.com](https://ampolic.com) website — Ampolic Digital Solutions' own site,
 generated from `ampolic-astro-template` (Astro 5 + Tailwind v4 + `@ampolic/ui`).
 
-- **Staging** = Cloudflare Pages `dev` branch
-- **Production** = `main` branch (merge `dev` → `main` via PR; never push `main` directly)
+- **Staging** = reusable CI direct-upload from `dev` to the Pages preview environment
+- **Production** = reusable CI direct-upload from `main` (merge `dev` → `main` via PR;
+  never push `main` directly). Cloudflare Git builds are intentionally disabled.
 
 ## Local development
 

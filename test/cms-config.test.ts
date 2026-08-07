@@ -25,6 +25,23 @@ const codeCollections = () =>
     .split(",")
     .map((s) => s.trim())
     .filter(Boolean);
+const cmsFieldBlocks = () => {
+  const blocks: string[] = [];
+  let current: string[] | null = null;
+  for (const line of config.split("\n")) {
+    if (/^      - \{/.test(line)) {
+      if (current) blocks.push(current.join("\n"));
+      current = [line];
+    } else if (current && /^      /.test(line)) {
+      current.push(line);
+    } else if (current) {
+      blocks.push(current.join("\n"));
+      current = null;
+    }
+  }
+  if (current) blocks.push(current.join("\n"));
+  return blocks;
+};
 
 describe("CMS config", () => {
   it("public_folder is an absolute path (Sveltia rejects relative ones)", () => {
@@ -49,12 +66,14 @@ describe("CMS config", () => {
   });
 
   it("fields with a default are not required (Sveltia blocks saves otherwise)", () => {
-    const offenders = [
-      ...config.matchAll(/^.*default:(?!.*required: false).*$/gm),
-    ]
-      .map((m) => m[0])
-      // boolean defaults are fine — checkboxes always have a value
-      .filter((l) => !/widget: boolean/.test(l));
+    const offenders = cmsFieldBlocks().filter(
+      (field) =>
+        /\bdefault:/.test(field) &&
+        // Boolean checkboxes always have a value; other defaulted fields must
+        // be optional or Sveltia can block saves after their value is cleared.
+        !/widget:\s*boolean/.test(field) &&
+        !/required:\s*false/.test(field),
+    );
     expect(offenders, offenders.join("\n")).toEqual([]);
   });
 
