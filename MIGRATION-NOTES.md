@@ -23,9 +23,10 @@ from `ampolic-astro-template` and porting the live ampolic.com content.
   uses Toledo, OH with empty street/postal code and city-center geo
   coordinates (TODO in site.ts). Consider switching JSON-LD to
   `ProfessionalService`/`Organization` later if desired.
-- **Decap CMS** (`public/admin/config.yml`): repo set to `ampolic/site-ampolic`,
-  branch `dev`; OAuth proxy (base_url/auth_endpoint) still needs per-repo setup
-  per the comments in that file.
+- **RESOLVED: Sveltia CMS** (`public/admin/config.yml`) is configured for
+  `ampolic/site-ampolic` on `dev`, using the shared `decap-auth` Cloudflare
+  Worker as its GitHub OAuth gateway. The config is Decap-compatible because
+  Sveltia consumes the same format.
 
 ## Skipped / approximated vs the live site
 
@@ -47,7 +48,7 @@ from `ampolic-astro-template` and porting the live ampolic.com content.
   grotesque; deliberate keep, not pixel parity).
 - **Nav pill styling** approximates the live pill nav (rounded link group +
   phone pill + orange CTA); buttons use `--radius-base` (0.75rem), not the live
-  site's full pills, because `@ampolic/ui@0.1.0` Button derives radius from the
+  site's full pills, because `@ampolic/ui@0.5.2` Button derives radius from the
   token shared with cards.
 - **About/Contact are homepage anchors** (`/#about`, `/#contact`) like the live
   site; the template's `/about` and `/contact` pages were deleted and 301'd in
@@ -55,23 +56,26 @@ from `ampolic-astro-template` and porting the live ampolic.com content.
   (storefront-specific) were deleted with them.
 - **Contact form fields** are the template's Name/Email/Message (not the live
   site's First/Last split) — sanctioned by the brief.
-- **Pricing** lives in `site.ts` (`pricing` array) rendered by
-  `src/components/PricingTiers.astro`.
+- **Pricing** is collection-driven from `src/content/pricing/` and rendered by
+  `@ampolic/ui`'s `PricingTiers` component.
 
-## Empty collections / dormant infrastructure
+## Content surfaces / dormant infrastructure
 
-- **Blog**: no posts. `/blog`, tags, RSS, and OG-image routes build fine with
-  the empty collection and are kept, but nothing links to them from the nav.
-- **Testimonials**: empty collection kept; the homepage testimonial section was
-  removed (restore from template + `TestimonialCard` when reviews exist).
-- **Pages collection**: empty (demo example page removed).
+- **Blog and testimonials were removed**, including their collections and
+  routes. Reintroduce them from the template only if Ampolic needs them later.
+- **Pages collection** remains empty for optional future standalone pages; the
+  generated catch-all route safely emits nothing while it is empty. Astro logs
+  its expected empty-collection warning during check/build until a page exists.
+- **Services, team, pricing, and FAQ** are collection-driven and editable in
+  Sveltia CMS at `/admin`.
 - `site.trust` rating/license/dispatch and `credentials` licenses/
   certifications are unused placeholder slots (no published rating/licenses).
 
 ## Verification caveats
 
-- `pnpm test:a11y` (Playwright a11y suite) was NOT run — needs Playwright
-  browsers installed. Run it before launch.
+- **RESOLVED (2026-08-06):** `pnpm test:a11y` passes against an isolated
+  production preview. The eight applicable sitemap/keyboard tests pass; the
+  two blog-share tests skip because this site intentionally has no blog.
 - Visual verification via screenshots WAS performed in the 2026-08 design pass:
   live-vs-rebuild comparisons at 1440px/375px are saved in
   `docs/design-review/`. Remaining known differences: buttons are rounded-xl

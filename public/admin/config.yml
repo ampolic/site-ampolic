@@ -1,4 +1,4 @@
-# Decap CMS configuration
+# Sveltia CMS configuration (Decap-compatible config format)
 #
 # PER-SITE SETUP (do this in each client repo generated from this template):
 #   1. Replace OWNER/REPO below with the client site's GitHub repo (e.g. ampolic/client-acme).
@@ -18,7 +18,6 @@ backend:
   branch: dev
   # OAuth gateway: the decap-auth Cloudflare Worker (ampolic-core/workers/decap-auth)
   base_url: https://decap-auth.muddy-voice-3b5b.workers.dev
-
 
 # Media library = the site's real image directory, so the CMS picker can select
 # existing assets (team photos, work screenshots, …). Paths are stored absolute
@@ -47,17 +46,27 @@ collections:
     create: true
     extension: md
     # List view: show site order in the row label and allow sorting by it.
-    summary: '{{fields.order}} · {{fields.title}}'
-    sortable_fields: ['order', 'title']
+    summary: "{{fields.order}} · {{fields.title}}"
+    sortable_fields: ["order", "title"]
     fields:
       - { name: title, label: Title, widget: string }
       - { name: summary, label: Summary, widget: string }
-      - { name: description, label: Meta description, widget: string, required: false }
+      - {
+          name: description,
+          label: Meta description,
+          widget: string,
+          required: false,
+        }
       - { name: icon, label: Icon (Lucide name), widget: string }
       - { name: order, label: Order, widget: number }
       - { name: featured, label: Featured, widget: boolean, default: false }
       - { name: image, label: Image, widget: image, required: false }
-      - { name: imageAlt, label: Image alt text, widget: string, required: false }
+      - {
+          name: imageAlt,
+          label: Image alt text,
+          widget: string,
+          required: false,
+        }
       - { name: body, label: Body, widget: markdown }
 
   - name: team
@@ -65,14 +74,20 @@ collections:
     folder: src/content/team
     create: true
     extension: md
-    summary: '{{fields.order}} · {{fields.name}}'
-    sortable_fields: ['order', 'name']
+    summary: "{{fields.order}} · {{fields.name}}"
+    sortable_fields: ["order", "name"]
     fields:
       - { name: name, label: Name, widget: string }
       - { name: role, label: Role, widget: string }
       - { name: order, label: Order, widget: number }
       - { name: website, label: Website URL, widget: string, required: false }
-      - { name: linkLabel, label: Link label, widget: string, default: Visit Website, required: false }
+      - {
+          name: linkLabel,
+          label: Link label,
+          widget: string,
+          default: Visit Website,
+          required: false,
+        }
       - { name: photo, label: Photo, widget: image }
       - { name: body, label: Bio, widget: markdown }
 
@@ -81,16 +96,37 @@ collections:
     folder: src/content/pricing
     create: true
     extension: md
-    summary: '{{fields.order}} · {{fields.name}} — {{fields.price}}{{fields.period}}'
-    sortable_fields: ['order', 'name']
+    summary: "{{fields.order}} · {{fields.name}} — {{fields.price}}{{fields.period}}"
+    sortable_fields: ["order", "name"]
     fields:
       - { name: name, label: Tier name, widget: string }
       - { name: price, label: Current price (e.g. $39), widget: string }
-      - { name: regular, label: Regular price (struck through), widget: string, required: false }
-      - { name: period, label: Period, widget: string, default: /mo, required: false }
+      - {
+          name: regular,
+          label: Regular price (struck through),
+          widget: string,
+          required: false,
+        }
+      - {
+          name: period,
+          label: Period,
+          widget: string,
+          default: /mo,
+          required: false,
+        }
       - { name: blurb, label: Blurb, widget: string, required: false }
-      - { name: features, label: Features, widget: list, field: { name: feature, label: Feature, widget: string } }
-      - { name: featured, label: Featured (highlighted card), widget: boolean, default: false }
+      - {
+          name: features,
+          label: Features,
+          widget: list,
+          field: { name: feature, label: Feature, widget: string },
+        }
+      - {
+          name: featured,
+          label: Featured (highlighted card),
+          widget: boolean,
+          default: false,
+        }
       - { name: order, label: Order, widget: number }
 
   - name: faq
@@ -98,10 +134,15 @@ collections:
     folder: src/content/faq
     create: true
     extension: md
-    summary: '{{fields.order}} · {{fields.question}}'
-    sortable_fields: ['order', 'question']
+    summary: "{{fields.order}} · {{fields.question}}"
+    sortable_fields: ["order", "question"]
     fields:
       - { name: question, label: Question, widget: string }
-      - { name: icon, label: 'Icon (lucide name, e.g. lucide:globe)', widget: string, required: false }
+      - {
+          name: icon,
+          label: "Icon (lucide name, e.g. lucide:globe)",
+          widget: string,
+          required: false,
+        }
       - { name: order, label: Order, widget: number }
       - { name: body, label: Answer, widget: markdown }

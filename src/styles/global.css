@@ -17,6 +17,7 @@
   --color-brand: #bb4900; /* burnt orange — measured from ampolic.com buttons/accents */
   --color-brand-dark: #ff9e62; /* dark-tuned brand, AA (dark ink) on dark surfaces */
   --color-brand-contrast: #ffffff;
+  --color-ampolic: #ff9e62; /* shared agency attribution mark */
 
   /* Photo hero — CONSTANT across light/dark: white text sits over imagery, not a surface */
   --color-scrim: #061221; /* deep navy-ink gradient over photos (matches live footer/hero) */

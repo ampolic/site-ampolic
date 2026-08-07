@@ -5,6 +5,7 @@ This file is the authoritative guardrail for working in this repo; the demo bran
 visual spec is docs/DESIGN.md. Do not substitute the stack choices below.
 
 ## Stack (non-negotiable)
+
 - Astro 5, static output. Tailwind CSS v4 via @tailwindcss/vite ONLY —
   never @astrojs/tailwind, never tailwind.config.js (CSS-first @theme).
 - No React/Vue/Svelte. Pure .astro components only.
@@ -14,6 +15,7 @@ visual spec is docs/DESIGN.md. Do not substitute the stack choices below.
   Tailwind v4 or Astro 5 config — do not rely on memory for these APIs.
 
 ## Theming discipline (the core contract of this template)
+
 - ALL visual identity lives in the @theme block of src/styles/global.css
   and the font imports in Base.astro. Nothing else.
 - Components reference design tokens only. NEVER hardcode hex colors,
@@ -24,7 +26,9 @@ visual spec is docs/DESIGN.md. Do not substitute the stack choices below.
   analytics) live in src/config/site.ts. Never inline them in components.
 
 ## Design quality bar (aesthetic direction comes from the frontend-design
+
 ## skill per client; these floors always apply)
+
 - One H1 per page. Body text 16–18px, line-height ≥ 1.6, measure ≤ 70ch.
 - Section rhythm: --spacing-section padding, alternating surface/surface-alt.
 - Exactly one primary CTA style per page; conversion path obvious.
@@ -35,28 +39,33 @@ visual spec is docs/DESIGN.md. Do not substitute the stack choices below.
 - Images only via astro:assets <Image /> with explicit dimensions.
 
 ## Workflow
+
 - Every component ≤ 80 lines. Prefer composition over prop flags.
 - After every batch of edits: run `pnpm check` then `pnpm build`.
   Both must pass before a task is done.
-- Adding a service/post/testimonial/FAQ must require only a new markdown
+- Adding a service/team member/pricing tier/FAQ must require only a new markdown
   file — if a code change is needed, the design is wrong; fix the template.
 - Do not add dependencies beyond those already in package.json without asking.
 
 ## Definition of done
-- astro check clean; build zero warnings
+
+- astro check clean; build has no warnings except the documented empty optional
+  `pages` collection warning while that collection is unused
 - Lighthouse mobile: Perf ≥ 95, A11y ≥ 95, SEO 100
 - Client JS < 60KB gzipped
 - No hex values in src/components or src/pages (grep to verify)
 - Rebrand test passes: site.ts + @theme + font swap = coherent new brand
 
 ## Stock images
+
 Use the image-banks MCP (Pexels). Always download into src/assets/images/
-(never hotlink), prefer landscape ≥1600px for hero images, portrait for
-testimonial/team slots. Record photographer name + Pexels URL in
+(never hotlink), prefer landscape ≥1600px for hero images and portrait for
+team slots. Record photographer name + Pexels URL in
 docs/IMAGE-CREDITS.md. Serve only via astro:assets <Image /> with explicit
 dimensions.
 
 ## Visual verification (mandatory for any UI change)
+
 After any change affecting rendering: start `pnpm dev`, use Playwright MCP to
 screenshot the affected pages at 1440px and 375px widths, view the screenshots,
 and check them against docs/DESIGN.md before declaring the task done.
@@ -64,17 +73,19 @@ Specifically check: section spacing/rhythm, typography scale, contrast,
 and anything that reads as a generic template.
 
 ## Privacy discipline
+
 - The privacy policy must stay accurate to what the site ACTUALLY does. Any
   change that adds data collection — analytics, embeds, pixels, new form
   fields, third-party scripts — is a privacy-policy-impacting change: update
   src/pages/privacy.astro in the SAME task, driven by src/config/site.ts `legal`.
 - Default stance: no cookies, no analytics, and no third-party browser requests
-  beyond the form processor, Cloudflare hosting/Turnstile, and the OpenStreetMap
-  embed. Adding any new third-party request requires asking first.
+  beyond the form processor and Cloudflare hosting/Turnstile. Adding any new
+  third-party request requires asking first.
 - Never present policy text as legal advice. Keep the "client must review with
   counsel" comment at the bottom of privacy.astro and terms.astro intact.
 
 ## Accessibility discipline
+
 - Every UI-affecting task must end with `pnpm test:a11y` passing (zero axe
   violations, every page) IN ADDITION to `pnpm check` && `pnpm build`.
 - Any new interactive component ships with keyboard tests in tests/a11y.spec.ts
@@ -101,6 +112,7 @@ and anything that reads as a generic template.
   reference this policy and docs/CLIENT-SETUP.md.
 
 ## SEO discipline
+
 - Every new page requires a UNIQUE title and description at creation time. `<SEO>` throws at
   build if description is missing, and the prop is typed required — do not weaken either. Titles
   follow the convention: homepage `[primaryService] in [city] | [businessName]`, inner pages

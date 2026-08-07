@@ -1,7 +1,7 @@
 ---
 import { site } from '../config/site';
 import { Icon } from 'astro-icon/components';
-import { EmailLink } from '@ampolic/ui';
+import { EmailLink, PoweredByAmpolic } from '@ampolic/ui';
 const year = new Date().getFullYear();
 // Dark navy footer like the live site — scrim/on-hero are constant across themes.
 ---
@@ -37,10 +37,10 @@ const year = new Date().getFullYear();
         <a href="/accessibility" class="hover:text-on-hero">Accessibility</a>
       </nav>
       {site.credit.enabled && (
-        <a href={site.credit.url} target="_blank" rel="noopener" data-site-credit
-           class="underline-offset-2 hover:text-on-hero hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-on-hero">
-          Site by {site.credit.name}
-        </a>
+        <PoweredByAmpolic
+          href={site.credit.url}
+          class="!border-on-hero/20 !text-on-hero/70 hover:!border-[var(--color-ampolic)] hover:!text-on-hero focus-visible:!outline-on-hero"
+        />
       )}
     </div>
   </div>

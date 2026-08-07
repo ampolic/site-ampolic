@@ -1,48 +1,58 @@
 ---
-import { getCollection } from 'astro:content';
-import type { ImageMetadata } from 'astro';
-import Base from '../layouts/Base.astro';
-import { CtaBand, TeamMemberCard } from '@ampolic/ui';
-import { site } from '../config/site';
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import { CtaBand, TeamMemberCard } from "@ampolic/ui";
+import { site } from "../config/site";
+import { resolveContentImage } from "../lib/contentImage";
 
 /* Members come from the `team` content collection — adding a person is a
    markdown file (CMS-editable), no code changes. Bio = the markdown body
    (plain prose; rendered as text by TeamMemberCard). Photos are absolute
    repo paths resolved through the glob below: an entry pointing at a
    missing file FAILS THE BUILD here, by design. */
-const photos = import.meta.glob<{ default: ImageMetadata }>(
-  '/src/assets/images/**/*.{jpg,jpeg,png,webp,avif}',
-  { eager: true }
+const members = (await getCollection("team")).sort(
+  (a, b) => a.data.order - b.data.order,
 );
-const members = (await getCollection('team')).sort((a, b) => a.data.order - b.data.order);
 const photoOf = (m: (typeof members)[number]) => {
-  const mod = photos[m.data.photo];
-  if (!mod) throw new Error(`team/${m.id}: photo not found: ${m.data.photo}`);
-  return mod.default;
+  return resolveContentImage(m.data.photo, `team/${m.id}`)!;
 };
 ---
-<Base title="Meet the Team" description={`Meet the people behind ${site.name} — the Toledo, Ohio team building premium, affordable websites.`}>
+
+<Base
+  title="Meet the Team"
+  description={`Meet the people behind ${site.name} — the Toledo, Ohio team building premium, affordable websites.`}
+>
   <section class="py-(--spacing-section)">
     <div class="mx-auto max-w-6xl px-4">
-      <h1 class="font-display text-4xl font-semibold text-balance sm:text-5xl">Meet the Team</h1>
-      <p class="mt-5 max-w-[52ch] text-lg text-text-muted">Meet the people behind Ampolic Digital Solutions.</p>
+      <h1 class="font-display text-4xl font-semibold text-balance sm:text-5xl">
+        Meet the Team
+      </h1>
+      <p class="text-text-muted mt-5 max-w-[52ch] text-lg">
+        Meet the people behind Ampolic Digital Solutions.
+      </p>
     </div>
   </section>
   <section class="bg-surface-alt py-(--spacing-section)">
     <div class="mx-auto max-w-6xl px-4">
       <div class="mx-auto grid max-w-3xl gap-6 md:grid-cols-2" data-stagger>
-        {members.map((m) => (
-          <TeamMemberCard
-            name={m.data.name}
-            role={m.data.role}
-            bio={(m.body ?? '').trim()}
-            photo={photoOf(m)}
-            linkLabel={m.data.linkLabel}
-            linkHref={m.data.website}
-          />
-        ))}
+        {
+          members.map((m) => (
+            <TeamMemberCard
+              name={m.data.name}
+              role={m.data.role}
+              bio={(m.body ?? "").trim()}
+              photo={photoOf(m)}
+              linkLabel={m.data.linkLabel}
+              linkHref={m.data.website}
+            />
+          ))
+        }
       </div>
     </div>
   </section>
-  <CtaBand heading="Work with us on your next website" ctaLabel={site.cta.label} ctaHref={site.cta.href} />
+  <CtaBand
+    heading="Work with us on your next website"
+    ctaLabel={site.cta.label}
+    ctaHref={site.cta.href}
+  />
 </Base>
