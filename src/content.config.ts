@@ -1,34 +1,43 @@
-import { defineCollection } from 'astro:content';
-import { glob } from 'astro/loaders';
+import { defineCollection } from "astro:content";
+import { glob } from "astro/loaders";
+import { z } from "astro/zod";
 import {
   serviceSchema,
   pageSchema,
   teamSchema,
   pricingSchema,
   faqSchema,
-} from './content/schemas';
+} from "./content/schemas";
 
 const services = defineCollection({
-  loader: glob({ base: './src/content/services', pattern: '**/[^_]*.{md,mdx}' }),
-  schema: ({ image }) => serviceSchema.extend({ image: image().optional() }),
+  loader: glob({
+    base: "./src/content/services",
+    pattern: "**/[^_]*.{md,mdx}",
+  }),
+  schema: ({ image }) =>
+    serviceSchema.extend({
+      image: z
+        .union([image(), z.string().startsWith("/src/assets/images/")])
+        .optional(),
+    }),
 });
 /* Free-form markdown pages — the landing spot for WordPress page exports.
    Each file becomes a route at /<slug> via src/pages/[...page].astro; static
    .astro routes always win over this dynamic route on slug collision. */
 const pages = defineCollection({
-  loader: glob({ base: './src/content/pages', pattern: '**/[^_]*.{md,mdx}' }),
+  loader: glob({ base: "./src/content/pages", pattern: "**/[^_]*.{md,mdx}" }),
   schema: pageSchema,
 });
 const team = defineCollection({
-  loader: glob({ base: './src/content/team', pattern: '**/[^_]*.{md,mdx}' }),
+  loader: glob({ base: "./src/content/team", pattern: "**/[^_]*.{md,mdx}" }),
   schema: teamSchema,
 });
 const pricing = defineCollection({
-  loader: glob({ base: './src/content/pricing', pattern: '**/[^_]*.{md,mdx}' }),
+  loader: glob({ base: "./src/content/pricing", pattern: "**/[^_]*.{md,mdx}" }),
   schema: pricingSchema,
 });
 const faq = defineCollection({
-  loader: glob({ base: './src/content/faq', pattern: '**/[^_]*.{md,mdx}' }),
+  loader: glob({ base: "./src/content/faq", pattern: "**/[^_]*.{md,mdx}" }),
   schema: faqSchema,
 });
 
