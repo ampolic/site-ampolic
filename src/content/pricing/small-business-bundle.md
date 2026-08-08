@@ -11,6 +11,7 @@ features:
   - Ongoing SEO
   - Basic content updates
   - Domain and maintenance included
+  - Month-to-month availability — no contract required
 featured: false
 order: 2
 ---

@@ -17,6 +17,12 @@ async function verifyTurnstile(token: string, secret: string, ip: string): Promi
   return data.success === true;
 }
 
+function formatPhone(phone: string): string {
+  const digits = phone.replace(/\D/g, '');
+  if (digits.length === 10) return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+  return phone.trim();
+}
+
 export const onRequestPost: (ctx: { request: Request; env: Env }) => Promise<Response> = async ({ request, env }) => {
   const form = await request.formData();
   const wantsJson = (request.headers.get('accept') ?? '').includes('application/json');
@@ -37,6 +43,8 @@ export const onRequestPost: (ctx: { request: Request; env: Env }) => Promise<Res
     website: String(form.get('website') ?? ''),
     startedAt: Number(form.get('startedAt') ?? 0),
   };
+  const topic = String(form.get('topic') ?? 'Not specified');
+  const phone = formatPhone(String(form.get('phone') ?? ''));
 
   const basic = validateSubmission(submission, Date.now());
   if (!basic.ok) return fail('Your message could not be validated.');
@@ -57,7 +65,7 @@ export const onRequestPost: (ctx: { request: Request; env: Env }) => Promise<Res
         to: env.CONTACT_TO_EMAIL,
         reply_to: submission.email,
         subject: `Website enquiry from ${submission.name}`,
-        text: `${submission.name} <${submission.email}>\n\n${submission.message}`,
+        text: `${submission.name} <${submission.email}>${phone ? `\nPhone: ${phone}` : ''}\nTopic: ${topic}\n\n${submission.message}`,
       }),
     });
     if (!sent.ok) return fail('We could not send your message. Please call us.', 502);

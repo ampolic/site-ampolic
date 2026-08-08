@@ -11,5 +11,6 @@ features:
   - Initial SEO setup
   - Hosting included
   - Domain setup
+  - Month-to-month availability — no contract required
 order: 1
 ---
