@@ -1,6 +1,6 @@
 ---
-title: Search Engine Optimization
-summary: SEO planning, page structure, metadata, and content guidance
+title: SEO & Google Business Profile
+summary: Keyword research, local SEO, Google Business Profile management, and quarterly reviews
 icon: services/seo
 order: 2
 featured: true

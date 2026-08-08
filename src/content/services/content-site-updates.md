@@ -1,6 +1,6 @@
 ---
-title: Content & Site Updates
-summary: Page edits, service changes, announcements, blog/news updates, and improvements
+title: Copywriting & Content Updates
+summary: Clear website copy, page edits, new content, and ongoing improvements as your business evolves
 icon: services/mobile-responsive
 order: 5
 featured: true

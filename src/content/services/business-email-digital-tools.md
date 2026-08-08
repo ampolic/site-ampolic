@@ -1,6 +1,6 @@
 ---
-title: Business Email & Digital Tools
-summary: Custom-domain email, email hosting management, and practical digital tools
+title: Business Automation & Technology
+summary: Custom-domain email support, connected business tools, and practical automations that reduce manual work
 icon: services/business-solutions
 order: 6
 featured: true

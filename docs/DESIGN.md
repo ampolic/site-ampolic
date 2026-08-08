@@ -143,7 +143,7 @@ Order: hero → services → social proof → CTA → contact.
    This *replaces* the badge-soup logo
    wall and the giant yellow "24/7 EMERGENCY" button entirely.
 3. **Services** — on `--color-surface-alt`. `SectionHeading` with mono eyebrow
-   `WHAT WE DO` + Archivo heading "Services". Three `ServiceCard`s: hairline
+   `WHAT WE DO` + Archivo heading "Solutions". Three-column solution cards: hairline
    border, teal icon, and a **mono index `01 / 02 / 03`** in the corner — a
    spec-sheet catalog, not soft feature cards.
 4. **Social proof** — on `--color-surface`. Mono eyebrow `IN THEIR WORDS`.

@@ -24,7 +24,6 @@ export interface Site {
      and AI-search summaries. Keep short and human. */
   primaryService: string;
   /* Marketing city for SEO titles + homepage copy. Keep in sync with address.locality. */
-  city: string;
   url: string;
   logo: string;
   email: string;
@@ -83,17 +82,16 @@ export const site: Site = {
   description:
     'Ampolic Digital Solutions is an Ohio based digital marketing company that is dedicated to providing premium and affordable websites.',
   primaryService: 'Digital Marketing',
-  city: 'Toledo',
   url: 'https://ampolic.com',
   logo: '/favicon.svg',
   /* TODO: replace with the real public contact address if different. */
-  email: 'claude@ampolic.com',
+  email: 'contact@ampolic.com',
   phone: '+1-419-740-1850',
   /* Online-service business — no published street address. TODO: add street/postal
      code if a mailing address is ever published. */
-  address: { street: '', locality: 'Toledo', region: 'OH', postalCode: '', country: 'US' },
-  /* Toledo, OH city-center coordinates (general area, not a storefront). */
-  geo: { lat: 41.6528, lng: -83.5379 },
+  address: { street: '', locality: '', region: 'OH', postalCode: '', country: 'US' },
+  /* Ohio state-center coordinates (general service area, not a storefront). */
+  geo: { lat: 40.4173, lng: -82.9071 },
   serviceArea: 'Ohio, United States',
   serviceAreas: ['Ohio, United States'],
   /* TODO: confirm business hours; support replies within 1–2 business days. */
@@ -133,7 +131,7 @@ export const site: Site = {
   og: { bg: '#061221', fg: '#f4f8fc', brand: '#ff9e62' },
   legal: {
     businessLegalName: 'Ampolic Digital Solutions LLC',
-    contactEmail: 'claude@ampolic.com',
+    contactEmail: 'contact@ampolic.com',
     /* TODO: set real effective/review dates before launch. */
     effectiveDate: '2026-08-05',
     lastReviewed: '2026-08-05',

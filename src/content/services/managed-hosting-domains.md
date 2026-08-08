@@ -1,6 +1,6 @@
 ---
-title: Managed Hosting & Domains
-summary: Reliable website hosting, domain setup, DNS management, SSL, and basic technical upkeep
+title: Website Hosting & Care
+summary: Hosting, domains, security, backups, and ongoing technical care for your website
 icon: services/security
 order: 3
 featured: true

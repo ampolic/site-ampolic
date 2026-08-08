@@ -22,18 +22,18 @@ export const GET: APIRoute = async ({ site: siteUrl }) => {
     '',
     `> ${site.description}`,
     '',
-    `${site.name} — ${site.primaryService} in ${site.city}, ${site.address.region}. `
+    `${site.name} — ${site.primaryService} serving ${site.serviceArea}. `
       + `Established ${site.trust.established} (${years} years). Serving ${site.serviceArea}; works with businesses anywhere. `
       + `Phone ${site.phone}.`,
     '',
     '## Key pages',
-    `- [Services](${abs('/services')}): ${site.description}`,
+    `- [Solutions](${abs('/#solutions')}): ${site.description}`,
     `- [Our Work](${abs('/our-work')}): Websites built by ${site.name} for businesses and organizations.`,
     `- [Team](${abs('/team')}): ${owner.name}, ${owner.title}, and Dylan Logan, CTO / Co-Owner.`,
     `- [Contact](${abs('/#contact')}): Reach ${site.name} about a new or existing website.`,
     '',
     '## Services',
-    ...services.map((s) => `- [${s.data.title}](${abs(`/services/${s.id}`)}): ${s.data.summary}`),
+    ...services.map((s) => `- ${s.data.title}: ${s.data.summary}`),
     '',
     '',
   ];

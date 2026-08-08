@@ -4,4 +4,4 @@ icon: lucide:map-pin
 order: 8
 ---
 
-No. We're based in Toledo, Ohio, but we work with businesses anywhere.
+No. We work with businesses anywhere.

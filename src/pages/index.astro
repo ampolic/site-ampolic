@@ -29,9 +29,9 @@ const digits = site.phone.replace(/\D/g, '').slice(-10);
 const phoneLabel = `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
 
 // Homepage title models the local-SEO convention: "[primaryService] in [city] | [name]".
-const homeTitle = `${site.primaryService} in ${site.city} | ${site.name}`;
+const homeTitle = `${site.primaryService} | ${site.name}`;
 
-const spec = [`Est. ${site.trust.established}`, `${site.city}, ${site.address.region}`, 'Month-to-month, no contracts', 'Launch in 1–2 weeks'];
+const spec = [`Est. ${site.trust.established}`, site.serviceArea, 'Month-to-month, no contracts', 'Launch in 1–2 weeks'];
 
 const why = [
   {
@@ -47,7 +47,7 @@ const why = [
   {
     icon: 'lucide:users-round',
     title: 'Real people, real support',
-    body: 'Work directly with a Toledo-based team and get thoughtful help by email or phone within 1–2 business days.',
+    body: 'Work directly with our team and get thoughtful help by email or phone within 1–2 business days.',
   },
   {
     icon: 'lucide:lock-keyhole',
@@ -57,12 +57,12 @@ const why = [
 ];
 
 const solutionDescriptions: Record<string, string> = {
-  'custom-website-design': 'We design modern, mobile-first websites around your brand, services, and customers. Every page is built to guide visitors clearly and turn interest into action.',
-  'search-engine-optimization': 'We strengthen the technical foundation that helps the right customers find you in search. That includes page structure, metadata, local SEO, and practical content guidance.',
-  'managed-hosting-domains': 'We handle hosting, domain setup, DNS, SSL, and routine technical maintenance for you. Your website stays secure, online, and looked after without the usual headaches.',
-  'lead-capture-forms': 'We build contact forms, quote requests, and intake flows that deliver new inquiries directly to you. Clear, spam-protected forms make it easier for visitors to take the next step.',
-  'content-site-updates': 'We keep your website accurate as your business changes, from new services to seasonal announcements. Send us the update you need, and we’ll handle the page edits.',
-  'business-email-digital-tools': 'We set up custom-domain email, mailbox access, and the essential digital tools your team needs. Everything is connected cleanly, professionally, and ready for day-to-day business.',
+  'custom-website-design': 'Fast, modern websites built around your business, your customers, and the actions you want them to take. It’s the upgrade for a dated site that no longer reflects the quality of your work.',
+  'managed-hosting-domains': 'Hosting, domains, SSL, security, backups, and routine maintenance are handled for you. Your website stays fast, reliable, and current without adding technical work to your plate.',
+  'search-engine-optimization': 'We build search visibility in from the start with keyword research, page structure, metadata, and local SEO. Quarterly reviews keep your site and Google Business Profile aligned with what customers search for.',
+  'content-site-updates': 'We help shape clear website copy, then keep it accurate as your business evolves. New services, announcements, photos, pages, and improvements are handled through ongoing support.',
+  'lead-capture-forms': 'We connect forms, analytics, and reporting so you can see what is working and turn more visits into useful conversations. Email marketing and ad campaigns are available as custom growth work.',
+  'business-email-digital-tools': 'We help remove manual busywork by connecting the tools your business already uses. From custom-domain email support to practical automations, we make your technology work together better.',
 };
 
 const process = [
@@ -99,7 +99,7 @@ const process = [
       <SectionHeading eyebrow="About" heading="Don't Settle For Less" />
       <p class="mt-6 max-w-[65ch] text-lg text-text-muted">
         Ampolic Digital Solutions specializes in helping small businesses grow their online presence
-        through custom-built, optimized websites. Established in 2020 and based in Toledo, Ohio, we
+        through custom-built, optimized websites. Established in 2020 and based in Ohio, we
         believe every business deserves a premium website — without the premium agency price tag.
       </p>
     </div>
@@ -132,7 +132,8 @@ const process = [
     <div class="mx-auto max-w-6xl px-4">
       <div data-reveal>
         <p class="text-brand font-mono text-sm font-semibold tracking-[0.28em] uppercase">What we do</p>
-        <h2 class="font-display mt-5 text-4xl font-semibold tracking-tight sm:text-5xl">Solutions</h2>
+        <h2 class="font-display mt-5 text-4xl font-semibold tracking-tight sm:text-5xl">Everything your website needs</h2>
+        <p class="mt-4 max-w-[52ch] text-lg text-text-muted">One modern website plan, with the technology, support, and ongoing improvements to keep it working for your business.</p>
         <span class="bg-brand mt-7 block h-1 w-16 rounded-full" aria-hidden="true"></span>
       </div>
       <div class="mt-12 grid gap-6 md:grid-cols-3" data-stagger>
@@ -143,9 +144,6 @@ const process = [
             </span>
             <h3 class="font-display mt-7 text-2xl font-semibold tracking-tight">{s.data.title}</h3>
             <p class="mt-4 text-pretty text-lg leading-relaxed text-text-muted">{solutionDescriptions[s.id] ?? s.data.summary}</p>
-            <a href={`/services/${s.id}`} class="text-brand group mt-auto inline-flex items-center gap-3 pt-9 font-semibold focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand">
-              <span class="group-hover:underline">Learn more</span><span class="text-2xl leading-none" aria-hidden="true">→</span>
-            </a>
           </article>
         ))}
       </div>
@@ -155,8 +153,8 @@ const process = [
             <Icon name="lucide:messages-square" class="size-8" />
           </span>
           <div>
-            <h3 class="font-display text-xl font-semibold tracking-tight">Need something custom?</h3>
-            <p class="mt-1 text-text-muted">Tell us what you’re looking for and we’ll help you build the right solution.</p>
+            <h3 class="font-display text-xl font-semibold tracking-tight">Need a custom growth project?</h3>
+            <p class="mt-1 text-text-muted">Tell us what you’re looking for and we’ll help you find the right next step.</p>
           </div>
         </div>
         <a href="/#contact" class="bg-brand text-brand-contrast inline-flex min-h-12 shrink-0 items-center justify-center gap-3 rounded-(--radius-base) px-7 font-semibold transition hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand">
