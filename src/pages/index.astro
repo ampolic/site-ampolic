@@ -36,20 +36,24 @@ const spec = [`Est. ${site.trust.established}`, `${site.city}, ${site.address.re
 
 const why = [
   {
-    title: 'Custom-built, not a template',
-    body: 'Every site is hand-built from scratch — no page builders, no bloat. That means faster load times and cleaner SEO.',
+    icon: 'lucide:panel-top',
+    title: 'No templates. No bloat.',
+    body: 'Every site is hand-built from scratch for your business, which means faster load times, cleaner code, and a more focused user experience.',
   },
   {
+    icon: 'lucide:cloudy',
     title: 'Everything handled for you',
-    body: 'Hosting, domain, SEO, security, and updates are all included in one monthly fee. You run your business; we run your website.',
+    body: 'Hosting, domains, SEO foundations, security, and ongoing updates are all included in one simple monthly plan.',
   },
   {
+    icon: 'lucide:users-round',
     title: 'Real people, real support',
-    body: `We're a Toledo-based team, and we reply within 1–2 business days — by email or phone, no ticket maze.`,
+    body: 'Work directly with a Toledo-based team and get thoughtful help by email or phone within 1–2 business days.',
   },
   {
+    icon: 'lucide:lock-keyhole',
     title: 'No lock-in',
-    body: 'Every plan is month-to-month. If you ever cancel, you keep your domain and your website files.',
+    body: 'Stay month-to-month. If you ever cancel, you keep your domain and your website files.',
   },
 ];
 
@@ -95,13 +99,22 @@ const process = [
 
   <section id="why" class="bg-surface-alt py-(--spacing-section)">
     <div class="mx-auto max-w-6xl px-4">
-      <div data-reveal><SectionHeading eyebrow="Why Ampolic" heading="Why Ampolic instead of a DIY website builder?" /></div>
+      <div class="max-w-3xl" data-reveal>
+        <p class="text-brand font-mono text-sm font-semibold tracking-[0.28em] uppercase">Why Ampolic</p>
+        <h2 class="font-display mt-5 text-4xl font-semibold tracking-tight text-balance sm:text-5xl lg:text-6xl">Why Ampolic instead of a DIY website builder?</h2>
+        <span class="bg-brand mt-8 block h-1 w-16 rounded-full" aria-hidden="true"></span>
+      </div>
       <div class="mt-12 grid gap-6 md:grid-cols-2" data-stagger>
         {why.map((w) => (
-          <Card>
-            <h3 class="font-display text-xl font-semibold tracking-tight">{w.title}</h3>
-            <p class="mt-2 text-text-muted">{w.body}</p>
-          </Card>
+          <article class="border-line bg-surface shadow-card flex flex-col gap-6 rounded-(--radius-base) border p-8 sm:flex-row sm:items-start sm:gap-8">
+            <span class="bg-brand/5 text-brand inline-flex size-28 shrink-0 items-center justify-center rounded-(--radius-base)" aria-hidden="true">
+              <Icon name={w.icon} class="size-12 stroke-[1.7]" />
+            </span>
+            <div class="pt-1">
+              <h3 class="font-display text-2xl font-semibold tracking-tight">{w.title}</h3>
+              <p class="mt-4 max-w-[31ch] text-lg leading-relaxed text-text-muted">{w.body}</p>
+            </div>
+          </article>
         ))}
       </div>
     </div>
