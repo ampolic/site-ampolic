@@ -58,8 +58,7 @@ export interface Site {
   og: { bg: string; fg: string; brand: string };
   /* Privacy/terms config. Drives the /privacy and /terms pages; see the Legal type. */
   legal: Legal;
-  /* Discreet agency attribution in the footer + humans.txt. This IS the agency's
-     own site, so the credit line is redundant — disabled. */
+  /* Discreet agency attribution in the footer + humans.txt. */
   credit: { enabled: boolean; name: string; url: string };
 }
 
@@ -143,7 +142,7 @@ export const site: Site = {
     analyticsSnippet: null,
     jurisdictionNote: 'the State of Ohio, United States',
   },
-  credit: { enabled: false, name: 'Ampolic Digital Solutions', url: 'https://ampolic.com' },
+  credit: { enabled: true, name: 'Ampolic Digital Solutions', url: 'https://ampolic.com' },
 };
 
 export default site;
