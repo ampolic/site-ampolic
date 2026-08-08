@@ -26,6 +26,13 @@ describe('contact function', () => {
     expect(await res.json()).toEqual({ ok: true });
   });
 
+  it('includes an optional phone number in the outgoing enquiry', async () => {
+    const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response('{}', { status: 200 }));
+    await onRequestPost({ request: req({ name: 'A', email: 'a@b.com', phone: '4197401850', message: 'hi there', website: '', startedAt: '0' }), env });
+    const options = fetchSpy.mock.calls[0][1] as RequestInit;
+    expect(JSON.parse(String(options.body)).text).toContain('Phone: (419) 740-1850');
+  });
+
   it('rejects when Turnstile verification fails', async () => {
     vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response(JSON.stringify({ success: false }), { status: 200 }));
     const res = await onRequestPost({ request: req({ name: 'A', email: 'a@b.com', message: 'hi there', website: '', startedAt: '0', 'cf-turnstile-response': 'tok' }), env });

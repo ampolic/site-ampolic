@@ -4,4 +4,4 @@ icon: lucide:globe
 order: 1
 ---
 
-Yes. Your domain is registered for your business, and if you ever cancel, you keep both the domain and your website files. There is no lock-in.
+Yes. Your domain is registered for your business, and your website files remain yours.

@@ -31,7 +31,7 @@ const phoneLabel = `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice
 // Homepage title models the local-SEO convention: "[primaryService] in [city] | [name]".
 const homeTitle = `${site.primaryService} | ${site.name}`;
 
-const spec = [`Est. ${site.trust.established}`, site.serviceArea, 'Month-to-month, no contracts', 'Launch in 1–2 weeks'];
+const spec = [`Est. ${site.trust.established}`, site.serviceArea, 'Launch in 1–2 weeks'];
 
 const why = [
   {
@@ -50,9 +50,9 @@ const why = [
     body: 'Work directly with our team and get thoughtful help by email or phone within 1–2 business days.',
   },
   {
-    icon: 'lucide:lock-keyhole',
-    title: 'No lock-in',
-    body: 'Stay month-to-month. If you ever cancel, you keep your domain and your website files.',
+    icon: 'lucide:trending-up',
+    title: 'Built to grow with you',
+    body: 'Start with the website your business needs today, then add pages, tools, and improvements as your goals evolve.',
   },
 ];
 
@@ -235,7 +235,7 @@ const process = [
   <section id="pricing" class="py-(--spacing-section)">
     <div class="mx-auto max-w-6xl px-4">
       <div data-reveal>
-        <SectionHeading eyebrow="Pricing" heading="Simple monthly plans" lede="No contracts, no surprise invoices. Every plan includes hosting, domain, and support." />
+        <SectionHeading eyebrow="Pricing" heading="Simple monthly plans" lede="Clear pricing, no surprise invoices. Every plan includes hosting, domain, and support." />
       </div>
       <div class="mt-12">
         <PricingTiers tiers={pricingTiers} ctaLabel="Get started" ctaHref="/#contact" />
@@ -269,7 +269,7 @@ const process = [
       <ul class="mt-14 grid grid-cols-2 gap-x-6 gap-y-8 lg:grid-cols-4" data-stagger>
         {
           [
-            { icon: 'lucide:shield-check', title: 'No lock-ins', sub: 'Cancel anytime' },
+            { icon: 'lucide:gauge', title: 'Built for speed', sub: 'Modern technology' },
             { icon: 'lucide:user-check', title: '100% ownership', sub: 'You own everything' },
             { icon: 'lucide:message-square', title: 'Clear communication', sub: 'We keep you in the loop' },
             { icon: 'lucide:life-buoy', title: 'Ongoing support', sub: "We're here when you need us" },
@@ -289,19 +289,50 @@ const process = [
     </div>
   </section>
 
-  <section id="contact" class="py-(--spacing-section)">
+  <section id="contact" class="pt-(--spacing-section)">
     <div class="mx-auto max-w-6xl px-4">
-      <div data-reveal><SectionHeading eyebrow="Contact" heading="Let's talk about your website" /></div>
-      <div class="mt-10 grid gap-12 lg:grid-cols-2 lg:items-start">
-        <div class="space-y-3">
-          <p class="max-w-[52ch] text-text-muted">
-            Tell us about your business and we'll get back to you within one to two business days.
-          </p>
-          <p><a href={`tel:${site.phone}`} class="text-brand hover:underline">{phoneLabel}</a></p>
-          <p><EmailLink email={site.email} class="text-brand hover:underline" /></p>
-          <p class="text-text-muted">{site.serviceArea}</p>
+      <div data-reveal>
+        <p class="text-brand font-mono text-sm font-semibold tracking-[0.28em] uppercase">Contact</p>
+        <h2 class="font-display mt-5 text-4xl font-semibold tracking-tight sm:text-5xl">Let's talk about your website</h2>
+        <span class="bg-brand mt-7 block h-1 w-16 rounded-full" aria-hidden="true"></span>
+      </div>
+    </div>
+    <div class="mt-10 grid lg:grid-cols-2" data-reveal>
+      <aside class="bg-scrim text-on-hero">
+        <div class="py-12 pr-8 pl-[max(1rem,calc((100vw-72rem)/2))] sm:py-16 sm:pr-12">
+          <p class="text-brand flex items-center gap-3 font-mono text-sm font-semibold tracking-[0.2em] uppercase"><span class="bg-brand size-3 rounded-full"></span>We're here</p>
+          <h3 class="font-display mt-6 max-w-[18ch] text-4xl font-semibold tracking-tight text-balance">A clear next step for your website.</h3>
+          <span class="bg-brand mt-6 block h-1 w-12 rounded-full" aria-hidden="true"></span>
+          <ul class="mt-7 divide-y divide-on-hero/15">
+            {[
+              { icon: 'lucide:phone', label: 'Free initial call' },
+              { icon: 'lucide:message-circle', label: 'Replies in 1–2 business days' },
+              { icon: 'lucide:clipboard-check', label: 'Clear next steps, no pressure' },
+              { icon: 'lucide:clock-3', label: 'Quick turnaround, clear timelines' },
+            ].map((item) => (
+              <li class="flex items-center gap-4 py-4 first:pt-0">
+                <span class="border-on-hero/30 text-brand inline-flex size-12 shrink-0 items-center justify-center rounded-full border"><Icon name={item.icon} class="size-6" /></span>
+                <span class="text-lg">{item.label}</span>
+              </li>
+            ))}
+          </ul>
+          <div class="border-t border-on-hero/15 pt-6">
+            <p class="font-mono text-xs font-semibold tracking-[0.18em] text-on-hero/65 uppercase">Reach us directly</p>
+            <div class="mt-4 grid gap-3">
+              <a href={`tel:${site.phone}`} class="border-on-hero/20 bg-on-hero/5 hover:border-brand/70 flex items-center gap-4 rounded-(--radius-base) border px-4 py-3 transition focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-on-hero">
+                <span class="border-on-hero/30 text-brand inline-flex size-10 shrink-0 items-center justify-center rounded-full border"><Icon name="lucide:phone" class="size-5" /></span>
+                <span><span class="block text-xs text-on-hero/65">Call</span><span class="text-lg font-semibold">{phoneLabel}</span></span>
+              </a>
+              <div class="border-on-hero/20 bg-on-hero/5 hover:border-brand/70 flex items-center gap-4 rounded-(--radius-base) border px-4 py-3 transition">
+                <span class="border-on-hero/30 text-brand inline-flex size-10 shrink-0 items-center justify-center rounded-full border"><Icon name="lucide:mail" class="size-5" /></span>
+                <span><span class="block text-xs text-on-hero/65">Email</span><EmailLink email={site.email} class="text-lg font-semibold hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-on-hero" /></span>
+              </div>
+            </div>
+          </div>
         </div>
-        <div><ContactForm /></div>
+      </aside>
+      <div class="bg-surface-alt">
+        <div class="py-12 pr-[max(1rem,calc((100vw-72rem)/2))] pl-8 sm:py-16 sm:pl-12"><ContactForm /></div>
       </div>
     </div>
   </section>

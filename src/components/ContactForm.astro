@@ -1,49 +1,84 @@
 ---
 import { site } from '../config/site';
-import { Button } from '@ampolic/ui';
+import { Icon } from 'astro-icon/components';
 ---
 
-<form id="contact" method="POST" action={site.form.endpoint} class="mx-auto grid max-w-xl gap-4">
+<form id="contact-form" method="POST" action={site.form.endpoint} class="grid gap-5">
   <input type="hidden" name="startedAt" value="" />
   {/* Honeypot — visually hidden (not display:none) so bots fill it; hidden from assistive tech. */}
   <div class="absolute -left-[9999px]" aria-hidden="true">
     <label>Website<input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
   </div>
-  <label class="grid gap-1">
+  <label class="grid gap-2 font-medium">
     Name
     <input
       required
       name="name"
       autocomplete="name"
-      class="min-h-11 rounded-(--radius-base) border border-line bg-surface px-3"
+      placeholder="Your name"
+      class="min-h-13 rounded-(--radius-base) border border-line bg-surface px-4 shadow-card transition placeholder:text-text-muted/65 hover:border-brand/50 focus:border-brand focus:ring-4 focus:ring-brand/10 focus:outline-none"
     />
   </label>
-  <label class="grid gap-1">
+  <label class="grid gap-2 font-medium">
     Email
     <input
       required
       type="email"
       name="email"
       autocomplete="email"
-      class="min-h-11 rounded-(--radius-base) border border-line bg-surface px-3"
+      placeholder="you@business.com"
+      class="min-h-13 rounded-(--radius-base) border border-line bg-surface px-4 shadow-card transition placeholder:text-text-muted/65 hover:border-brand/50 focus:border-brand focus:ring-4 focus:ring-brand/10 focus:outline-none"
     />
   </label>
-  <label class="grid gap-1">
-    Message
+  <label class="grid gap-2 font-medium">
+    <span>Phone <span class="font-normal text-text-muted">(optional)</span></span>
+    <input
+      type="tel"
+      name="phone"
+      inputmode="tel"
+      autocomplete="tel"
+      placeholder="(419) 740-1850"
+      class="min-h-13 rounded-(--radius-base) border border-line bg-surface px-4 shadow-card transition placeholder:text-text-muted/65 hover:border-brand/50 focus:border-brand focus:ring-4 focus:ring-brand/10 focus:outline-none"
+    />
+  </label>
+  <label class="grid gap-2 font-medium">
+    What can we help with?
+    <span class="relative block">
+      <select required name="topic" class="min-h-13 w-full appearance-none rounded-(--radius-base) border border-line bg-surface px-4 pr-12 shadow-card transition hover:border-brand/50 focus:border-brand focus:ring-4 focus:ring-brand/10 focus:outline-none">
+        <option value="" disabled selected>Select an option</option>
+        <option value="New website">A new website</option>
+        <option value="Website redesign">A website redesign</option>
+        <option value="Website care">Website hosting and care</option>
+        <option value="SEO">SEO and Google Business Profile</option>
+        <option value="Growth project">A custom growth project</option>
+        <option value="Other">Something else</option>
+      </select>
+      <Icon name="lucide:chevron-down" class="pointer-events-none absolute top-1/2 right-4 size-5 -translate-y-1/2 text-text-muted" aria-hidden="true" />
+    </span>
+  </label>
+  <label class="grid gap-2 font-medium">
+    Tell us a little about your project
     <textarea
       required
       name="message"
-      rows="5"
-      class="rounded-(--radius-base) border border-line bg-surface p-3"
+      rows="4"
+      placeholder="Tell us about your business, your current website, or what you want to improve."
+      class="min-h-36 rounded-(--radius-base) border border-line bg-surface p-4 shadow-card transition placeholder:text-text-muted/65 hover:border-brand/50 focus:border-brand focus:ring-4 focus:ring-brand/10 focus:outline-none"
     ></textarea>
   </label>
   <div class="cf-turnstile" data-sitekey={site.form.turnstileSiteKey}></div>
-  <Button type="submit">Send message</Button>
+  <button type="submit" class="bg-brand text-brand-contrast inline-flex min-h-13 items-center justify-center gap-3 rounded-(--radius-base) px-6 text-xl font-semibold transition hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand">
+    Start the conversation <span class="text-2xl leading-none" aria-hidden="true">→</span>
+  </button>
+  <p class="flex items-center justify-center gap-3 text-center text-text-muted">
+    <Icon name="lucide:lock-keyhole" class="size-5 shrink-0" aria-hidden="true" />
+    Your details stay private. No spam.
+  </p>
   <p id="contact-status" role="status" aria-live="polite" class="text-text-muted"></p>
 </form>
 
 <script>
-  const form = document.getElementById('contact') as HTMLFormElement;
+  const form = document.getElementById('contact-form') as HTMLFormElement;
   (form.elements.namedItem('startedAt') as HTMLInputElement).value = String(Date.now());
 
   // Load Turnstile only when JS is present (progressive enhancement).
