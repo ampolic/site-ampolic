@@ -1,6 +1,6 @@
 ---
-title: Lead Capture Forms
-summary: Contact forms, quote requests, intake forms, and lead notifications built directly into your website
+title: Leads, Analytics & Growth
+summary: Lead capture, analytics, reporting, and custom email or advertising campaigns when you are ready to grow
 icon: services/email
 order: 4
 featured: true

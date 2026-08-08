@@ -9,7 +9,6 @@ export function buildLocalBusinessJsonLd(site: Site) {
     description: site.description,
     url: site.url,
     telephone: site.phone,
-    email: site.email,
     image: new URL(site.logo, site.url).href,
     address: {
       '@type': 'PostalAddress',

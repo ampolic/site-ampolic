@@ -14,6 +14,10 @@
 /about                    /#about          301
 /contact                  /#contact        301
 
+# Services are now summarized on the homepage rather than having individual pages.
+/services                 /#solutions      301
+/services/*               /#solutions      301
+
 # Blog removed (remove-blog.mjs)
 /blog / 301
 /blog/* / 301

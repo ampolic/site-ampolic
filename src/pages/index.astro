@@ -2,7 +2,6 @@
 import { getCollection, render } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
-import ServiceCard from '../components/ServiceCard.astro';
 import { PricingTiers } from '@ampolic/ui';
 import ContactForm from '../components/ContactForm.astro';
 import { SectionHeading, Card, FaqList, EmailLink, Button } from '@ampolic/ui';
@@ -30,28 +29,41 @@ const digits = site.phone.replace(/\D/g, '').slice(-10);
 const phoneLabel = `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
 
 // Homepage title models the local-SEO convention: "[primaryService] in [city] | [name]".
-const homeTitle = `${site.primaryService} in ${site.city} | ${site.name}`;
+const homeTitle = `${site.primaryService} | ${site.name}`;
 
-const spec = [`Est. ${site.trust.established}`, `${site.city}, ${site.address.region}`, 'Month-to-month, no contracts', 'Launch in 1–2 weeks'];
+const spec = [`Est. ${site.trust.established}`, site.serviceArea, 'Month-to-month, no contracts', 'Launch in 1–2 weeks'];
 
 const why = [
   {
-    title: 'Custom-built, not a template',
-    body: 'Every site is hand-built from scratch — no page builders, no bloat. That means faster load times and cleaner SEO.',
+    icon: 'lucide:panel-top',
+    title: 'No templates. No bloat.',
+    body: 'Every site is hand-built from scratch for your business, which means faster load times, cleaner code, and a more focused user experience.',
   },
   {
+    icon: 'lucide:cloudy',
     title: 'Everything handled for you',
-    body: 'Hosting, domain, SEO, security, and updates are all included in one monthly fee. You run your business; we run your website.',
+    body: 'Hosting, domains, SEO foundations, security, and ongoing updates are all included in one simple monthly plan.',
   },
   {
+    icon: 'lucide:users-round',
     title: 'Real people, real support',
-    body: `We're a Toledo-based team, and we reply within 1–2 business days — by email or phone, no ticket maze.`,
+    body: 'Work directly with our team and get thoughtful help by email or phone within 1–2 business days.',
   },
   {
+    icon: 'lucide:lock-keyhole',
     title: 'No lock-in',
-    body: 'Every plan is month-to-month. If you ever cancel, you keep your domain and your website files.',
+    body: 'Stay month-to-month. If you ever cancel, you keep your domain and your website files.',
   },
 ];
+
+const solutionDescriptions: Record<string, string> = {
+  'custom-website-design': 'Fast, modern websites built around your business, your customers, and the actions you want them to take. It’s the upgrade for a dated site that no longer reflects the quality of your work.',
+  'managed-hosting-domains': 'Hosting, domains, SSL, security, backups, and routine maintenance are handled for you. Your website stays fast, reliable, and current without adding technical work to your plate.',
+  'search-engine-optimization': 'We build search visibility in from the start with keyword research, page structure, metadata, and local SEO. Quarterly reviews keep your site and Google Business Profile aligned with what customers search for.',
+  'content-site-updates': 'We help shape clear website copy, then keep it accurate as your business evolves. New services, announcements, photos, pages, and improvements are handled through ongoing support.',
+  'lead-capture-forms': 'We connect forms, analytics, and reporting so you can see what is working and turn more visits into useful conversations. Email marketing and ad campaigns are available as custom growth work.',
+  'business-email-digital-tools': 'We help remove manual busywork by connecting the tools your business already uses. From custom-domain email support to practical automations, we make your technology work together better.',
+};
 
 const process = [
   { step: '01', icon: 'lucide:message-circle-more', title: 'Reach out', body: 'We discuss your business needs and goals.' },
@@ -87,7 +99,7 @@ const process = [
       <SectionHeading eyebrow="About" heading="Don't Settle For Less" />
       <p class="mt-6 max-w-[65ch] text-lg text-text-muted">
         Ampolic Digital Solutions specializes in helping small businesses grow their online presence
-        through custom-built, optimized websites. Established in 2020 and based in Toledo, Ohio, we
+        through custom-built, optimized websites. Established in 2020 and based in Ohio, we
         believe every business deserves a premium website — without the premium agency price tag.
       </p>
     </div>
@@ -95,13 +107,22 @@ const process = [
 
   <section id="why" class="bg-surface-alt py-(--spacing-section)">
     <div class="mx-auto max-w-6xl px-4">
-      <div data-reveal><SectionHeading eyebrow="Why Ampolic" heading="Why Ampolic instead of a DIY website builder?" /></div>
+      <div class="max-w-3xl" data-reveal>
+        <p class="text-brand font-mono text-sm font-semibold tracking-[0.28em] uppercase">Why Ampolic</p>
+        <h2 class="font-display mt-5 text-4xl font-semibold tracking-tight text-balance sm:text-5xl lg:text-6xl">Why Ampolic instead of a DIY website builder?</h2>
+        <span class="bg-brand mt-8 block h-1 w-16 rounded-full" aria-hidden="true"></span>
+      </div>
       <div class="mt-12 grid gap-6 md:grid-cols-2" data-stagger>
         {why.map((w) => (
-          <Card>
-            <h3 class="font-display text-xl font-semibold tracking-tight">{w.title}</h3>
-            <p class="mt-2 text-text-muted">{w.body}</p>
-          </Card>
+          <article class="border-line bg-surface shadow-card flex flex-col gap-6 rounded-(--radius-base) border p-8 sm:flex-row sm:items-start sm:gap-8">
+            <span class="bg-brand/5 text-brand inline-flex size-28 shrink-0 items-center justify-center rounded-(--radius-base)" aria-hidden="true">
+              <Icon name={w.icon} class="size-12 stroke-[1.7]" />
+            </span>
+            <div class="pt-1">
+              <h3 class="font-display text-2xl font-semibold tracking-tight">{w.title}</h3>
+              <p class="mt-4 max-w-[31ch] text-lg leading-relaxed text-text-muted">{w.body}</p>
+            </div>
+          </article>
         ))}
       </div>
     </div>
@@ -109,18 +130,37 @@ const process = [
 
   <section id="solutions" class="py-(--spacing-section)">
     <div class="mx-auto max-w-6xl px-4">
-      <div data-reveal><SectionHeading eyebrow="What we do" heading="Solutions" /></div>
+      <div data-reveal>
+        <p class="text-brand font-mono text-sm font-semibold tracking-[0.28em] uppercase">What we do</p>
+        <h2 class="font-display mt-5 text-4xl font-semibold tracking-tight sm:text-5xl">Everything your website needs</h2>
+        <p class="mt-4 max-w-[52ch] text-lg text-text-muted">One modern website plan, with the technology, support, and ongoing improvements to keep it working for your business.</p>
+        <span class="bg-brand mt-7 block h-1 w-16 rounded-full" aria-hidden="true"></span>
+      </div>
       <div class="mt-12 grid gap-6 md:grid-cols-3" data-stagger>
-        {services.map((s, i) => (
-          <ServiceCard
-            title={s.data.title}
-            summary={s.data.summary}
-            icon={s.data.icon}
-            href={`/services/${s.id}`}
-            index={String(i + 1).padStart(2, '0')}
-          />
+        {services.map((s) => (
+          <article class="border-line bg-surface shadow-card flex h-full flex-col rounded-(--radius-base) border p-7">
+            <span class="bg-brand/5 text-brand inline-flex size-21 items-center justify-center rounded-(--radius-base)" aria-hidden="true">
+              <Icon name={s.data.icon} class="size-11" />
+            </span>
+            <h3 class="font-display mt-7 text-2xl font-semibold tracking-tight">{s.data.title}</h3>
+            <p class="mt-4 text-pretty text-lg leading-relaxed text-text-muted">{solutionDescriptions[s.id] ?? s.data.summary}</p>
+          </article>
         ))}
       </div>
+      <aside class="border-line bg-surface shadow-card mt-6 flex flex-col gap-6 rounded-(--radius-base) border p-7 sm:flex-row sm:items-center sm:justify-between" data-reveal>
+        <div class="flex items-center gap-5">
+          <span class="bg-brand/5 text-brand inline-flex size-16 shrink-0 items-center justify-center rounded-full" aria-hidden="true">
+            <Icon name="lucide:messages-square" class="size-8" />
+          </span>
+          <div>
+            <h3 class="font-display text-xl font-semibold tracking-tight">Need a custom growth project?</h3>
+            <p class="mt-1 text-text-muted">Tell us what you’re looking for and we’ll help you find the right next step.</p>
+          </div>
+        </div>
+        <a href="/#contact" class="bg-brand text-brand-contrast inline-flex min-h-12 shrink-0 items-center justify-center gap-3 rounded-(--radius-base) px-7 font-semibold transition hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand">
+          Let’s talk <span class="text-xl leading-none" aria-hidden="true">→</span>
+        </a>
+      </aside>
     </div>
   </section>
 
